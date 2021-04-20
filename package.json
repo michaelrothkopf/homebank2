@@ -1,0 +1,9 @@
+{
+  "name": "homebank2",
+  "version": "1.0.0",
+  "description": "Version 2 of Homebank",
+  "main": "src/index.ts",
+  "repository": "https://github.com/mrbros35/homebank2.git",
+  "author": "mrbros35",
+  "license": "Copyright (C) 2021 mrbros35. All rights reserved."
+}
