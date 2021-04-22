@@ -5,5 +5,9 @@
   "main": "src/index.ts",
   "repository": "https://github.com/mrbros35/homebank2.git",
   "author": "mrbros35",
-  "license": "Copyright (C) 2021 mrbros35. All rights reserved."
+  "license": "Copyright (C) 2021 mrbros35. All rights reserved.",
+  "dependencies": {
+    "@types/express": "types/express",
+    "mysql2": "^2.2.5"
+  }
 }
