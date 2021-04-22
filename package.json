@@ -1,13 +1,23 @@
 {
-  "name": "homebank2",
-  "version": "1.0.0",
-  "description": "Version 2 of Homebank",
-  "main": "src/index.ts",
-  "repository": "https://github.com/mrbros35/homebank2.git",
-  "author": "mrbros35",
-  "license": "Copyright (C) 2021 mrbros35. All rights reserved.",
-  "dependencies": {
-    "@types/express": "types/express",
-    "mysql2": "^2.2.5"
-  }
+    "name": "homebank2",
+    "version": "1.0.0",
+    "description": "Version 2 of Homebank",
+    "main": "src/index.ts",
+    "repository": "https://github.com/mrbros35/homebank2.git",
+    "author": "mrbros35",
+    "license": "Copyright (C) 2021 mrbros35. All rights reserved.",
+    "dependencies": {
+        "express": "^4.17.1",
+        "mysql2": "^2.2.5"
+    },
+    "devDependencies": {
+        "@types/express": "types/express",
+        "nodemon": "^2.0.7",
+        "ts-node": "^9.1.1"
+    },
+    "scripts": {
+        "dev:backend": "nodemon src/packages/backend/index.ts",
+        "dev:web": "",
+        "dev": "yarn run dev:backend & yarn run dev:web"
+    }
 }
