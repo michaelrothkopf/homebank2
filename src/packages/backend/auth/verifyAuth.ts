@@ -4,6 +4,11 @@ import { getUser, getUserByUsername, User, UserType } from "../db/user";
 import { RowDataPacket } from "mysql2";
 import { generateUuid } from "../crypto/uuid";
 import getUnixTime from "../../../common/getUnixTime";
+import { RecordType } from "../db/record";
+import { getChore } from "../db/chore";
+import { getCompletedChore } from "../db/completedChore";
+import { getHouseholdById } from "../db/household";
+import { getPurchaseById } from "../db/purchase";
 
 export interface LoginKey extends RowDataPacket {
     id: number,
@@ -87,5 +92,43 @@ export const tokenIsValid = async (loginKey: string): Promise<LoginAttemptResult
             success: false
         };
         return result;
+    }
+}
+
+export const userCanAccessRecord = async (userId: number, recordId: number, recordType: RecordType): Promise<boolean> => {
+    const user = await getUser(userId);
+    try {
+        switch (recordType) {
+            case RecordType.Bonus:
+                return false;
+            case RecordType.Chore:
+                const chore = await getChore(recordId);
+                return user.household == chore.household;
+            case RecordType.ChoreCompleted:
+                const choreCompleted = await getCompletedChore(recordId);
+                return (
+                    (user.role == UserType.Parent && user.household == choreCompleted.household) ||
+                    (user.role == UserType.Child && user.id == choreCompleted.user)
+                );
+            case RecordType.Household:
+                const household = await getHouseholdById(recordId);
+                return household.code == user.household;
+            case RecordType.Purchase:
+                const purchase = await getPurchaseById(recordId);
+                return (
+                    (user.role == UserType.Parent && user.household == purchase.household) ||
+                    (user.role == UserType.Child && user.id == purchase.user)
+                );
+            case RecordType.User:
+                const recordUser = await getUser(recordId);
+                return (
+                    (user.role == UserType.Parent && user.household == recordUser.household) ||
+                    (user.role == UserType.Child && user.id == recordUser.id)
+                );
+            default:
+                return false;
+        }
+    } catch {
+        return false;
     }
 }

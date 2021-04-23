@@ -35,6 +35,18 @@ export const getUserChores = async (userId: number): Promise<CompletedChore[]> =
     });
 }
 
+export const getCompletedChore = async (userId: number): Promise<CompletedChore> => {
+    return new Promise((resolve, reject) => {
+        try {
+            connection.query(`SELECT * FROM chores_completed WHERE user=?;`, [userId], (err, result: CompletedChore[]) => {
+                resolve(result[0]);
+            })
+        } catch {
+            reject("Error getting chore.");
+        }
+    });
+}
+
 export const logCompletedChore = async (userId: number, choreId: number): Promise<void> => {
     const household = await getUserHousehold(userId);
     connection.query(`INSERT INTO chores_completed (chore, time_completed, user, household) VALUES (?, ?, ?, '?')`, [choreId, getUnixTime(), userId, household]);

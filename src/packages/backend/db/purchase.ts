@@ -32,3 +32,15 @@ export const getHouseholdPurchases = async (household: string): Promise<Purchase
         }
     });
 }
+
+export const getPurchaseById = async (purchaseId: number): Promise<Purchase> => {
+    return new Promise((resolve, reject) => {
+        try {
+            connection.query(`SELECT * FROM purchases WHERE id=?;`, [purchaseId], (err, result: Purchase[]) => {
+                resolve(result[0]);
+            });
+        } catch {
+            reject("Error getting user purchases.");
+        }
+    });
+}
