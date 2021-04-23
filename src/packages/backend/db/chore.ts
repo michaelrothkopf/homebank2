@@ -12,7 +12,7 @@ export interface Chore extends RowDataPacket {
 export const getChore = async (choreId: number): Promise<Chore> => {
     return new Promise((resolve, reject) => {
         try {
-            connection.query(`SELECT * FROM chores WHERE id=?`, [choreId], (err, result: Chore[]) => {
+            connection.query(`SELECT * FROM chores WHERE id=?;`, [choreId], (err, result: Chore[]) => {
                 resolve(result[0]);
             })
         } catch {
@@ -24,7 +24,7 @@ export const getChore = async (choreId: number): Promise<Chore> => {
 export const getChoreName = async (choreId: number): Promise<string> => {
     return new Promise((resolve, reject) => {
         try {
-            connection.query(`SELECT * FROM chores WHERE id=?`, [choreId], (err, result: Chore[]) => {
+            connection.query(`SELECT * FROM chores WHERE id=?;`, [choreId], (err, result: Chore[]) => {
                 resolve(result[0].name);
             })
         } catch {
@@ -36,7 +36,7 @@ export const getChoreName = async (choreId: number): Promise<string> => {
 export const getChoreValue = async (choreId: number): Promise<number> => {
     return new Promise((resolve, reject) => {
         try {
-            connection.query(`SELECT * FROM chores WHERE id=?`, [choreId], (err, result: Chore[]) => {
+            connection.query(`SELECT * FROM chores WHERE id=?;`, [choreId], (err, result: Chore[]) => {
                 resolve(result[0].value);
             })
         } catch {

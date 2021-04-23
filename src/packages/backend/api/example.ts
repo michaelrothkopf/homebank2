@@ -1,8 +1,9 @@
-import express from "express";
+import { Request, Response } from "express";
 
 export = {
     path: "/example",
-    route: (req: express.Request, res: express.Response) => {
+    method: 'post',
+    route: (req: Request, res: Response) => {
         res.send({
             parameters: req.query,
             status: "Success!",

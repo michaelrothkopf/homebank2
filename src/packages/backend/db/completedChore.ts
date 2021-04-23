@@ -14,7 +14,7 @@ export interface CompletedChore extends RowDataPacket {
 export const getHouseholdChores = async (householdId: string): Promise<CompletedChore[]> => {
     return new Promise((resolve, reject) => {
         try {
-            connection.query(`SELECT * FROM chores_completed WHERE id=?`, [householdId], (err, result: CompletedChore[]) => {
+            connection.query(`SELECT * FROM chores_completed WHERE id=?;`, [householdId], (err, result: CompletedChore[]) => {
                 resolve(result);
             })
         } catch {
@@ -26,7 +26,7 @@ export const getHouseholdChores = async (householdId: string): Promise<Completed
 export const getUserChores = async (userId: number): Promise<CompletedChore[]> => {
     return new Promise((resolve, reject) => {
         try {
-            connection.query(`SELECT * FROM chores_completed WHERE user=?`, [userId], (err, result: CompletedChore[]) => {
+            connection.query(`SELECT * FROM chores_completed WHERE user=?;`, [userId], (err, result: CompletedChore[]) => {
                 resolve(result);
             })
         } catch {
@@ -35,7 +35,19 @@ export const getUserChores = async (userId: number): Promise<CompletedChore[]> =
     });
 }
 
-export const logCompletedChore = async (userId: number, choreId: number) => {
+export const logCompletedChore = async (userId: number, choreId: number): Promise<void> => {
     const household = await getUserHousehold(userId);
-    connection.query(`INSERT INTO chores_completed (chore, time_completed, user, household) VALUES (?, ?, ?, ?)`, [choreId, getUnixTime(), userId, household]);
+    connection.query(`INSERT INTO chores_completed (chore, time_completed, user, household) VALUES (?, ?, ?, '?')`, [choreId, getUnixTime(), userId, household]);
+}
+
+export const removeCompletedChore = async (choreId: number) => {
+    return new Promise((resolve, reject) => {
+        try {
+            connection.query(`DELETE FROM chores_completed WHERE id=?;`, [choreId], (err, result: any) => {
+                resolve(true);
+            })
+        } catch {
+            reject(false);
+        }
+    });
 }
