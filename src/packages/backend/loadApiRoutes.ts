@@ -5,6 +5,7 @@ import { Application, Request, Response } from "express";
 export interface ApiRoute {
     path: string,
     method?: string,
+    disabled?: boolean,
     route: (req: Request, res: Response) => void,
 }
 
@@ -15,6 +16,10 @@ export const genRoutes = (app: Application) => {
 
     modules.then((apiRoutes: ApiRoute[]) => {
         for (const apiRoute of apiRoutes) {
+            if (apiRoute.disabled === true) {
+                continue;
+            }
+
             switch (apiRoute.method) {
                 case "get":
                     app.get(apiRoute.path, apiRoute.route);

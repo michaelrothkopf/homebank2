@@ -1,6 +1,6 @@
 import { connection } from "./connection";
 import { RowDataPacket } from "mysql2";
-import { getUserChores } from "./completedChore";
+import { getUserChoresCompleted } from "./completedChore";
 import { getChoreValue } from "./chore";
 import { getUserPurchases } from "./purchase";
 
@@ -83,7 +83,7 @@ export const getUserStartingBalance = async (userId: number): Promise<number> =>
 
 export const getUserTotalBalance = async (userId: number) => {
     const startingBalance = await getUserStartingBalance(userId);
-    const choresCompleted = await getUserChores(userId);
+    const choresCompleted = await getUserChoresCompleted(userId);
 
     let balance = startingBalance;
 

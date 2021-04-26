@@ -1,5 +1,6 @@
 import { connection } from "./connection";
 import { RowDataPacket } from "mysql2";
+import { getUserHousehold } from "./user";
 
 export interface Purchase extends RowDataPacket {
     id: number,
@@ -42,5 +43,18 @@ export const getPurchaseById = async (purchaseId: number): Promise<Purchase> => 
         } catch {
             reject("Error getting user purchases.");
         }
+    });
+}
+
+export const logUserPurchase = async (userId: number, item: string, amount: number): Promise<void> => {
+    const household = await getUserHousehold(userId);
+    connection.query(`INSERT INTO purchases (item, user, amount, household) VALUES (?, ?, ?, '?')`, [item, userId, amount, household], (err) => {
+        return;
+    });
+}
+
+export const removeUserPurchase = async (purchaseId: number): Promise<void> => {
+    connection.query(`DELETE FROM purchases WHERE id=?;`, [purchaseId], (err) => {
+        return;
     });
 }

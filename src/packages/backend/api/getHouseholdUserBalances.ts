@@ -1,0 +1,34 @@
+import { Request, Response } from "../lib/expressTypes";
+import { getHouseholdUsers } from "../db/household";
+import { tokenIsValid } from "../auth/verifyAuth";
+import { getUserTotalBalance, UserType } from "../db/user";
+
+export = {
+    path: "/getHouseholdUserBalances",
+    method: 'post',
+    disabled: false,
+    route: async (req: Request, res: Response) => {
+        const validationResult = await tokenIsValid(req.cookies.loginToken);
+
+        if (!validationResult.success || !validationResult.user || validationResult.user.role != UserType.Parent) {
+            res.send({
+                failed: true,
+                data: null,
+            });
+            return;
+        }
+
+        const data = await getHouseholdUsers(validationResult.user.household);
+
+        for (const user of data) {
+            const totalBalance = await getUserTotalBalance(user.id);
+
+            user.totalBalance = totalBalance;
+        }
+
+        res.send({
+            failed: false,
+            data: data,
+        });
+    },
+};
