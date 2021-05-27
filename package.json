@@ -1,29 +1,29 @@
 {
-    "name": "homebank2",
-    "version": "1.0.0",
-    "description": "Version 2 of Homebank",
-    "main": "src/index.ts",
-    "repository": "https://github.com/mrbros35/homebank2.git",
-    "author": "mrbros35",
-    "license": "Copyright (C) 2021 mrbros35. All rights reserved.",
-    "dependencies": {
-        "body-parser": "^1.19.0",
-        "crypto": "^1.0.1",
-        "express": "^4.17.1",
-        "mysql2": "^2.2.5",
-        "uuid": "^8.3.2"
-    },
-    "devDependencies": {
-        "@types/express": "types/express",
-        "@types/uuid": "^8.3.0",
-        "nodemon": "^2.0.7",
-        "ts-node": "^9.1.1",
-        "typedoc": "^0.20.36"
-    },
-    "scripts": {
-        "dev:backend": "nodemon src/packages/backend/index.ts",
-        "dev:web": "",
-        "dev": "yarn run dev:backend & yarn run dev:web",
-        "build": "tsc"
-    }
+  "name": "homebank2",
+  "version": "1.0.0",
+  "description": "Version 2 of Homebank",
+  "main": "src/index.ts",
+  "repository": "https://github.com/mrbros35/homebank2.git",
+  "author": "mrbros35",
+  "license": "Copyright (C) 2021 mrbros35. All rights reserved.",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "crypto": "^1.0.1",
+    "express": "^4.17.1",
+    "mysql2": "^2.2.5",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "@types/express": "types/express",
+    "@types/uuid": "^8.3.0",
+    "nodemon": "^2.0.7",
+    "ts-node": "^9.1.1",
+    "typedoc": "^0.20.36"
+  },
+  "scripts": {
+    "dev:backend": "nodemon src/packages/backend/index.ts",
+    "dev:web": "",
+    "dev": "yarn run dev:backend & yarn run dev:web",
+    "build": "tsc"
+  }
 }

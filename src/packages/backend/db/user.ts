@@ -3,6 +3,7 @@ import { RowDataPacket } from "mysql2";
 import { getUserChoresCompleted } from "./completedChore";
 import { getChoreValue } from "./chore";
 import { getUserPurchases } from "./purchase";
+import { getWeekDifference } from "../lib/getWeekDifference";
 
 export enum UserType {
     Child = 'child',
@@ -81,6 +82,30 @@ export const getUserStartingBalance = async (userId: number): Promise<number> =>
     });
 }
 
+export const getUserAllowance = async (userId: number): Promise<number> => {
+    return new Promise((resolve, reject) => {
+        try {
+            connection.query(`SELECT * FROM users WHERE id=?;`, [userId], (err, result: User[]) => {
+                resolve(result[0].allowance);
+            })
+        } catch {
+            reject("Error getting user by ID.");
+        }
+    });
+}
+
+export const getUserDateCreated = async (userId: number): Promise<Date> => {
+    return new Promise((resolve, reject) => {
+        try {
+            connection.query(`SELECT * FROM users WHERE id=?;`, [userId], (err, result: User[]) => {
+                resolve(new Date(result[0].time_created));
+            })
+        } catch {
+            reject("Error getting user by ID.");
+        }
+    });
+}
+
 export const getUserTotalBalance = async (userId: number) => {
     const startingBalance = await getUserStartingBalance(userId);
     const choresCompleted = await getUserChoresCompleted(userId);
@@ -98,6 +123,11 @@ export const getUserTotalBalance = async (userId: number) => {
     for (const purchase of userPurchases) {
         balance -= purchase.amount;
     }
+
+    const allowance = await getUserAllowance(userId);
+    const dateAccountCreated = await getUserDateCreated(userId);
+    const weeksSinceCreated = getWeekDifference(new Date(), dateAccountCreated);
+    balance += allowance * weeksSinceCreated;
 
     return balance;
 }
