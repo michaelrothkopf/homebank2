@@ -12,7 +12,8 @@ Homebank 2 is the second, better written version of Homebank.
 
 |              Folder              |                         Description                         |
 | :------------------------------: | :---------------------------------------------------------: |
-|          [docs](/docs)           |                        Documentation                        |
+| [backend docs](/src/packages/backend/docs)           |                        Back-end Documentation                        |
+|          [frontend docs](/src/packages/web/docks)           |                        Front-end Documentation                        |
 |     [web](/src/packages/web)     |                          Front-end                          |
 | [backend](/src/packages/backend) |                          Back-end                           |
 |      [common](/src/common)       | Common files that are used in both the front- and back-end. |
