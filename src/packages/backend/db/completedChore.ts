@@ -3,6 +3,9 @@ import { RowDataPacket } from "mysql2";
 import { getUserHousehold } from "./user";
 import getUnixTime from "../../../common/getUnixTime";
 
+/**
+ * Interface for a Completed Chore row in the database
+ * */
 export interface CompletedChore extends RowDataPacket {
     id: number,
     chore: number,
@@ -11,6 +14,10 @@ export interface CompletedChore extends RowDataPacket {
     household: string,
 }
 
+/**
+ * Gets a list of a user's completed chores given a user ID
+ * @param userId
+ */
 export const getUserChoresCompleted = async (userId: number): Promise<CompletedChore[]> => {
     return new Promise((resolve, reject) => {
         try {
@@ -23,6 +30,10 @@ export const getUserChoresCompleted = async (userId: number): Promise<CompletedC
     });
 }
 
+/**
+ * Gets a Completed Chore object from the database given a chore ID
+ * @param userId
+ */
 export const getCompletedChore = async (userId: number): Promise<CompletedChore> => {
     return new Promise((resolve, reject) => {
         try {
@@ -35,6 +46,11 @@ export const getCompletedChore = async (userId: number): Promise<CompletedChore>
     });
 }
 
+/**
+ * Adds a new completed chore given a user ID and a chore ID
+ * @param userId
+ * @param choreId
+ */
 export const logCompletedChore = async (userId: number, choreId: number): Promise<void> => {
     const household = await getUserHousehold(userId);
     connection.query(`INSERT INTO chores_completed (chore, time_completed, user, household) VALUES (?, ?, ?, '?')`, [choreId, getUnixTime(), userId, household], (err) => {
@@ -42,6 +58,10 @@ export const logCompletedChore = async (userId: number, choreId: number): Promis
     });
 }
 
+/**
+ * Removes a completed chore given a chore ID
+ * @param choreId
+ */
 export const removeCompletedChore = async (choreId: number) => {
     return new Promise((resolve, reject) => {
         try {
@@ -54,10 +74,14 @@ export const removeCompletedChore = async (choreId: number) => {
     });
 }
 
-export const getHouseholdChoresCompleted = async (householdId: string): Promise<CompletedChore[]> => {
+/**
+ * Gets a list of a household's chores completed given a household code
+ * @param household
+ */
+export const getHouseholdChoresCompleted = async (household: string): Promise<CompletedChore[]> => {
     return new Promise((resolve, reject) => {
         try {
-            connection.query(`SELECT * FROM chores_completed WHERE id=?;`, [householdId], (err, result: CompletedChore[]) => {
+            connection.query(`SELECT * FROM chores_completed WHERE id=?;`, [household], (err, result: CompletedChore[]) => {
                 resolve(result);
             })
         } catch {

@@ -2,6 +2,9 @@ import { connection } from "./connection";
 import { RowDataPacket } from "mysql2";
 import getUnixTime from "../../../common/getUnixTime";
 
+/**
+ * Interface for a Chore row in the databse
+ * */
 export interface Chore extends RowDataPacket {
     id: number,
     household: string,
@@ -10,6 +13,10 @@ export interface Chore extends RowDataPacket {
     time_created: number,
 }
 
+/**
+ * Gets a Chore object from the database given a chore ID
+ * @param choreId
+ */
 export const getChore = async (choreId: number): Promise<Chore> => {
     return new Promise((resolve, reject) => {
         try {
@@ -22,6 +29,10 @@ export const getChore = async (choreId: number): Promise<Chore> => {
     });
 }
 
+/**
+ * Gets a chore name from the database given a chore ID
+ * @param choreId
+ */
 export const getChoreName = async (choreId: number): Promise<string> => {
     return new Promise((resolve, reject) => {
         try {
@@ -34,6 +45,10 @@ export const getChoreName = async (choreId: number): Promise<string> => {
     });
 }
 
+/**
+ * Gets a chore value from the database given a chore ID
+ * @param choreId
+ */
 export const getChoreValue = async (choreId: number): Promise<number> => {
     return new Promise((resolve, reject) => {
         try {
@@ -46,6 +61,10 @@ export const getChoreValue = async (choreId: number): Promise<number> => {
     });
 }
 
+/**
+ * Gets a list of a household's chores given a household code
+ * @param household
+ */
 export const getHouseholdChores = async (household: string): Promise<Chore[]> => {
     return new Promise((resolve, reject) => {
         try {
@@ -58,6 +77,12 @@ export const getHouseholdChores = async (household: string): Promise<Chore[]> =>
     });
 }
 
+/**
+ * Adds a new household chore given a household code, chore name, and chore value
+ * @param household
+ * @param name
+ * @param value
+ */
 export const addHouseholdChore = async (household: string, name: string, value: number): Promise<boolean> => {
     return new Promise((resolve, reject) => {
         try {
@@ -70,6 +95,10 @@ export const addHouseholdChore = async (household: string, name: string, value: 
     });
 }
 
+/**
+ * Removes a household chore given a chore ID
+ * @param choreId
+ */
 export const removeHouseholdChore = async (choreId: number): Promise<boolean> => {
     return new Promise((resolve, reject) => {
         try {

@@ -7,7 +7,7 @@ export = {
     method: 'post',
     disabled: false,
     route: async (req: Request, res: Response) => {
-        const validationResult = await tokenIsValid(req.cookies.loginToken);
+        const validationResult = await tokenIsValid(req.cookies.loginKey);
 
         if (!validationResult.success || !validationResult.user) {
             res.send({

@@ -9,14 +9,21 @@ export = {
     method: 'post',
     disabled: false,
     route: async (req: Request, res: Response) => {
-        const validationResult = await tokenIsValid(req.cookies.loginToken);
+        const validationResult = await tokenIsValid(req.cookies.loginKey);
 
-        if (!validationResult.success || !validationResult.user || validationResult.user.role != UserType.Parent || (!await userCanAccessRecord(validationResult.user.id, req.body.choreId, RecordType.ChoreCompleted))) {
+        if (!validationResult.success || !validationResult.user || validationResult.user.role != UserType.Parent) {
             res.send({
                 failed: true,
                 data: null,
             });
             return;
+        }
+
+        if (!(await userCanAccessRecord(validationResult.user.id, req.body.choreId, RecordType.ChoreCompleted))) {
+            res.send({
+                failed: true,
+                data: null
+            });
         }
 
         const data = await removeCompletedChore(req.body.choreId);

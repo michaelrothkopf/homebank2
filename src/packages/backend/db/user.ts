@@ -4,12 +4,19 @@ import { getUserChoresCompleted } from "./completedChore";
 import { getChoreValue } from "./chore";
 import { getUserPurchases } from "./purchase";
 import { getWeekDifference } from "../lib/getWeekDifference";
+import { connect } from "express/lib/application";
 
+/**
+ * Enum type for the Child and Parent user types
+ * */
 export enum UserType {
     Child = 'child',
     Parent = 'parent',
 }
 
+/**
+ * Interface for a User row in the database
+ * */
 export interface User extends RowDataPacket {
     id: number,
     username: string,
@@ -22,6 +29,10 @@ export interface User extends RowDataPacket {
     nickname: string,
 }
 
+/**
+ * Gets a User object from the database given a user ID
+ * @param userId
+ */
 export const getUser = async (userId: number): Promise<User> => {
     return new Promise((resolve, reject) => {
         try {
@@ -34,10 +45,14 @@ export const getUser = async (userId: number): Promise<User> => {
     });
 }
 
+/**
+ * Gets a User object from the database given a username
+ * @param username
+ */
 export const getUserByUsername = async (username: string): Promise<User> => {
     return new Promise((resolve, reject) => {
         try {
-            connection.query(`SELECT * FROM users WHERE username='?';`, [username], (err, result: User[]) => {
+            connection.query(`SELECT * FROM users WHERE username=?;`, [username], (err, result: User[]) => {
                 resolve(result[0]);
             })
         } catch {
@@ -46,6 +61,10 @@ export const getUserByUsername = async (username: string): Promise<User> => {
     });
 }
 
+/**
+ * Gets a user's nickname given a user ID
+ * @param userId
+ */
 export const getUserNickname = async (userId: number): Promise<string> => {
     return new Promise((resolve, reject) => {
         try {
@@ -58,6 +77,10 @@ export const getUserNickname = async (userId: number): Promise<string> => {
     });
 }
 
+/**
+ * Gets a user's household given a user ID
+ * @param userId
+ */
 export const getUserHousehold = async (userId: number): Promise<string> => {
     return new Promise((resolve, reject) => {
         try {
@@ -70,6 +93,10 @@ export const getUserHousehold = async (userId: number): Promise<string> => {
     });
 }
 
+/**
+ * Gets a user's starting balance given a user ID
+ * @param userId
+ */
 export const getUserStartingBalance = async (userId: number): Promise<number> => {
     return new Promise((resolve, reject) => {
         try {
@@ -82,6 +109,27 @@ export const getUserStartingBalance = async (userId: number): Promise<number> =>
     });
 }
 
+/**
+ * Sets a user's starting balance given a user ID and new balance
+ * @param userId
+ * @param newBalance
+ */
+export const setUserStartingBalance = async (userId: number, newBalance: number): Promise<void> => {
+    return new Promise((resolve, reject) => {
+        try {
+            connection.query(`UPDATE users SET balance=? WHERE id=?;`, [newBalance], (err, result: any) => {
+                resolve();
+            });
+        } catch {
+            reject("Error setting user starting balance.");
+        }
+    })
+}
+
+/**
+ * Gets a user's allowance given a user ID
+ * @param userId
+ */
 export const getUserAllowance = async (userId: number): Promise<number> => {
     return new Promise((resolve, reject) => {
         try {
@@ -94,6 +142,27 @@ export const getUserAllowance = async (userId: number): Promise<number> => {
     });
 }
 
+/**
+ * Sets a user's allowance given a user ID and new allowance
+ * @param userId
+ * @param newAllowance
+ */
+export const setUserAllowance = async (userId: number, newAllowance: number): Promise<void> => {
+    return new Promise((resolve, reject) => {
+        try {
+            connection.query(`UPDATE users SET allowance=? WHERE id=?;`, [newAllowance], (err, result: any) => {
+                resolve();
+            });
+        } catch {
+            reject("Error setting user starting balance.");
+        }
+    })
+}
+
+/**
+ * Gets a user's date of account creation given a user ID 
+ * @param userId
+ */
 export const getUserDateCreated = async (userId: number): Promise<Date> => {
     return new Promise((resolve, reject) => {
         try {
@@ -106,6 +175,10 @@ export const getUserDateCreated = async (userId: number): Promise<Date> => {
     });
 }
 
+/**
+ * Gets a user's total balance given a user ID
+ * @param userId
+ */
 export const getUserTotalBalance = async (userId: number) => {
     const startingBalance = await getUserStartingBalance(userId);
     const choresCompleted = await getUserChoresCompleted(userId);

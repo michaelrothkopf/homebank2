@@ -1,6 +1,6 @@
 import { readdirSync } from "fs";
 import { join as joinPaths } from "path";
-import { Application, Request, Response } from "express";
+import { Application, Request, Response } from "./lib/expressTypes";
 
 export interface ApiRoute {
     path: string,

@@ -5,6 +5,7 @@
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
     <Name>HomeBank</Name>
     <RootNamespace>HomeBank</RootNamespace>
+    <SaveNodeJsSettingsInProjectFile>True</SaveNodeJsSettingsInProjectFile>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -12,8 +13,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>fdc75c5d-7e9c-48c4-89b8-f2df47f6a486</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>
-    </StartupFile>
+    <StartupFile>src/packages/backend/index.ts</StartupFile>
     <StartWebBrowser>True</StartWebBrowser>
     <SearchPath>
     </SearchPath>
@@ -21,9 +21,9 @@
     <OutputPath>.</OutputPath>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <ProjectTypeGuids>{3AF33F2E-1136-4D97-BBB7-1795711AC8B8};{349c5851-65df-11da-9384-00065b846f21};{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}</ProjectTypeGuids>
-    <NodejsPort>1337</NodejsPort>
+    <NodejsPort>5000</NodejsPort>
     <EnableTypeScript>true</EnableTypeScript>
-    <StartWebBrowser>true</StartWebBrowser>
+    <StartWebBrowser>True</StartWebBrowser>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -64,6 +64,7 @@
     <TypeScriptCompile Include="src\packages\backend\api\addHouseholdChore.ts" />
     <TypeScriptCompile Include="src\packages\backend\api\addUserPurchase.ts" />
     <TypeScriptCompile Include="src\packages\backend\api\example.ts" />
+    <TypeScriptCompile Include="src\packages\backend\api\login.ts" />
     <TypeScriptCompile Include="src\packages\backend\api\getHouseholdChores.ts" />
     <TypeScriptCompile Include="src\packages\backend\api\getHouseholdChoresCompleted.ts" />
     <TypeScriptCompile Include="src\packages\backend\api\getHouseholdPurchases.ts" />
@@ -76,9 +77,16 @@
     <TypeScriptCompile Include="src\packages\backend\api\getUserBalance.ts" />
     <TypeScriptCompile Include="src\packages\backend\api\getUserCompletedChores.ts" />
     <TypeScriptCompile Include="src\packages\backend\api\getUserPurchases.ts" />
+    <TypeScriptCompile Include="src\packages\backend\api\ping.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
     <TypeScriptCompile Include="src\packages\backend\api\removeCompletedChore.ts" />
     <TypeScriptCompile Include="src\packages\backend\api\removeHouseholdChore.ts" />
     <TypeScriptCompile Include="src\packages\backend\api\removeUserPurchase.ts" />
+    <TypeScriptCompile Include="src\packages\backend\api\setUserStartingBalance.ts" />
+    <TypeScriptCompile Include="src\packages\backend\api\setUserAllowance.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
     <TypeScriptCompile Include="src\packages\backend\auth\verifyAuth.ts" />
     <TypeScriptCompile Include="src\packages\backend\crypto\createHash.ts" />
     <TypeScriptCompile Include="src\packages\backend\crypto\uuid.ts" />
