@@ -1,6 +1,6 @@
 const fetchData = async (url='', data={}) => {
-    var failed = false;
-    var response;
+    let failed = false;
+    let response;
     try {
         response = await fetch(url, {
             method: 'POST',

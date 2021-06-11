@@ -13,13 +13,13 @@
 */
 
 const setAllowance = async (childId) => {
-    var newAllowance = $("#newAllowance-" + childId).val();
+    let newAllowance = $("#newAllowance-" + childId).val();
 
     if (!newAllowance) {
         return;
     }
 
-    var response = await fetchData('/api/v1/set_user_allowance', {userId: childId, newAllowance: newAllowance});
+    let response = await fetchData('/api/v2/setUserAllowance', {userId: childId, newAllowance: newAllowance});
 
     if (response.failed) {
         return;
@@ -29,13 +29,13 @@ const setAllowance = async (childId) => {
 }
 
 const setStartingBalance = async (childId) => {
-    var newStartingBalance = $("#newStartingBalance-" + childId).val();
+    let newStartingBalance = $("#newStartingBalance-" + childId).val();
 
     if (!newStartingBalance) {
         return;
     }
 
-    var response = await fetchData('/api/v1/set_user_starting_balance', {userId: childId, newBalance: newStartingBalance});
+    let response = await fetchData('/api/v2/setUserStartingBalance', {userId: childId, newBalance: newStartingBalance});
 
     if (response.failed) {
         return;
@@ -45,9 +45,9 @@ const setStartingBalance = async (childId) => {
 }
 
 const getHouseholdSettings = async () => {
-    var householdSettings = await fetchData('/api/v1/get_household_user_settings');
+    let householdUsers = await fetchData('/getHouseholdUsers', {});
 
-    if (householdSettings.failed) {
+    if (householdUsers.failed) {
         return;
     }
 
@@ -60,8 +60,7 @@ const getHouseholdSettings = async () => {
         </div>
     `);
 
-    for (child of householdSettings.allowances) {
-        console.log(child.id);
+    for (child of householdUsers.data) {
         $("#childList").append(`
         <div class="p-3 bg-secondary text-light d-flex flex-column flex-md-row flex-grow-0">
             <div class="chore">
@@ -88,18 +87,18 @@ const getHouseholdSettings = async () => {
 }
 
 const getHouseholdCode = async () => {
-    var response = await fetchData('/api/v1/get_household_info', {});
+    let response = await fetchData('/api/v2/getHouseholdInfo', {});
 
     if (response.failed) {
         return;
     }
 
-    $("#householdCode").html('Household code: ' + response.housecode);
+    $("#householdCode").html('Household code: ' + response.code);
 }
 
 const logout = async () => {
     console.log('loggin out');
-    await fetchData('/api/v1/logout');
+    await fetchData('/api/v2/logout');
     window.location.href = "/";
 }
 

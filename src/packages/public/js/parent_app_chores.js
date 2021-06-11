@@ -1,5 +1,5 @@
 const logout = async () => {
-    await fetchData('/api/v1/logout');
+    await fetchData('/api/v2/logout');
     window.location.href = "/";
 }
 
@@ -8,19 +8,19 @@ const logout = async () => {
  * @param {int} choreId The id of the chore to delete
  */
 const removeCompletedChore = async (choreId) => {
-    var removeChoreResponse = await fetchData('/api/v1/remove_completed_chore', {choreId: choreId});
+    let removeChoreResponse = await fetchData('/api/v2/removeCompletedChore', {choreId: choreId});
     console.log(removeChoreResponse)
     if (removeCompletedChore) $('#completed-chore-' + choreId.toString()).remove();
 }
 
 const removeAvailableHouseholdChore = async (choreId) => {
-    var removeChoreResponse = await fetchData('/api/v1/remove_available_household_chore', {choreId: choreId});
+    let removeChoreResponse = await fetchData('/api/v2/remove_available_household_chore', {choreId: choreId});
     if (!removeChoreResponse.failed) $("#available-household-chore-" + choreId.toString()).remove();
     else console.log(removeChoreResponse);
 }
 
 const getChores = async () => {
-    var chores = await fetchData('/api/v1/get_chore_list');
+    let chores = await fetchData('/api/v2/get_chore_list');
     console.log(chores);
     if (chores.failed) {
         return;
@@ -47,7 +47,7 @@ const getChores = async () => {
 }
 
 const getAvailableChores = async () => {
-    var chores = await fetchData('/api/v1/get_household_available_chores');
+    let chores = await fetchData('/api/v2/get_household_available_chores');
     console.log(chores);
     if (chores.failed) {
         return;
@@ -73,14 +73,14 @@ const getAvailableChores = async () => {
 }
 
 const createNewChore = async () => {
-    var choreName = $("#choreName").val();
-    var choreValue = $("#chorePrice").val();
-    var createChoreResponse = await fetchData('/api/v1/create_chore', {choreName: choreName, choreValue: choreValue});
+    let choreName = $("#choreName").val();
+    let choreValue = $("#chorePrice").val();
+    let createChoreResponse = await fetchData('/api/v2/create_chore', {choreName: choreName, choreValue: choreValue});
 
     if (createChoreResponse.failed) $("#addChoreErrorText").html(createChoreResponse.message);
 
-    var choreName = $("#choreName").val('');
-    var choreValue = $("#chorePrice").val('');
+    let choreName = $("#choreName").val('');
+    let choreValue = $("#chorePrice").val('');
 
     getAvailableChores();
 }

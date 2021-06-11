@@ -1,6 +1,7 @@
 import { connection } from "./connection";
 import { RowDataPacket } from "mysql2";
 import { User } from "./user";
+import { generateUuid } from "../crypto/uuid";
 
 /**
  * Interface for a household row in the database
@@ -19,11 +20,33 @@ export interface Household extends RowDataPacket {
 export const getHousehold = async (code: string): Promise<Household> => {
     return new Promise((resolve, reject) => {
         try {
-            connection.query(`SELECT * FROM households WHERE code='?';`, [code], (err, result: Household[]) => {
+            connection.query(`SELECT * FROM households WHERE code='?';`, [code], (err: any, result: Household[]) => {
                 resolve(result[0]);
             });
         } catch {
-            reject("Error getting chore.");
+            reject("Error getting household.");
+        }
+    });
+}
+
+/**
+ * Creates a household in the database
+ * @param name The household name
+ * @param time_created The time the household was created
+ * @returns The household object
+ */
+export const createHousehold = async (name: string, time_created: number): Promise<Household> => {
+    return new Promise((resolve, reject) => {
+        try {
+            const code = generateUuid().substr(0, 5);
+
+            connection.query(`INSERT INTO households (name, time_created, code) VALUES (?, ?, ?);`, [name, time_created, code], async (err) => {
+                const result = await getHousehold(code);
+
+                resolve(result);
+            });
+        } catch {
+            reject("Error creating household.");
         }
     });
 }
@@ -35,7 +58,7 @@ export const getHousehold = async (code: string): Promise<Household> => {
 export const getHouseholdUsers = async (code: string): Promise<User[]> => {
     return new Promise((resolve, reject) => {
         try {
-            connection.query(`SELECT * FROM users WHERE household='?';`, [code], (err, result: User[]) => {
+            connection.query(`SELECT * FROM users WHERE household='?';`, [code], (err: any, result: User[]) => {
                 resolve(result);
             });
         } catch {
@@ -51,7 +74,7 @@ export const getHouseholdUsers = async (code: string): Promise<User[]> => {
 export const getHouseholdById = async (householdId: number): Promise<Household> => {
     return new Promise((resolve, reject) => {
         try {
-            connection.query(`SELECT * FROM households WHERE id=?;`, [householdId], (err, result: Household[]) => {
+            connection.query(`SELECT * FROM households WHERE id=?;`, [householdId], (err: any, result: Household[]) => {
                 resolve(result[0]);
             });
         } catch {

@@ -4,7 +4,6 @@ import { getUserChoresCompleted } from "./completedChore";
 import { getChoreValue } from "./chore";
 import { getUserPurchases } from "./purchase";
 import { getWeekDifference } from "../lib/getWeekDifference";
-import { connect } from "express/lib/application";
 
 /**
  * Enum type for the Child and Parent user types
@@ -27,6 +26,7 @@ export interface User extends RowDataPacket {
     allowance: number,
     household: string,
     nickname: string,
+    totalBalance?: number,
 }
 
 /**
@@ -36,7 +36,7 @@ export interface User extends RowDataPacket {
 export const getUser = async (userId: number): Promise<User> => {
     return new Promise((resolve, reject) => {
         try {
-            connection.query(`SELECT * FROM users WHERE id=?;`, [userId], (err, result: User[]) => {
+            connection.query(`SELECT * FROM users WHERE id=?;`, [userId], (err: any, result: User[]) => {
                 resolve(result[0]);
             })
         } catch {
@@ -52,7 +52,7 @@ export const getUser = async (userId: number): Promise<User> => {
 export const getUserByUsername = async (username: string): Promise<User> => {
     return new Promise((resolve, reject) => {
         try {
-            connection.query(`SELECT * FROM users WHERE username=?;`, [username], (err, result: User[]) => {
+            connection.query(`SELECT * FROM users WHERE username=?;`, [username], (err: any, result: User[]) => {
                 resolve(result[0]);
             })
         } catch {
@@ -68,7 +68,7 @@ export const getUserByUsername = async (username: string): Promise<User> => {
 export const getUserNickname = async (userId: number): Promise<string> => {
     return new Promise((resolve, reject) => {
         try {
-            connection.query(`SELECT * FROM users WHERE id=?;`, [userId], (err, result: User[]) => {
+            connection.query(`SELECT * FROM users WHERE id=?;`, [userId], (err: any, result: User[]) => {
                 resolve(result[0].nickname);
             })
         } catch {
@@ -84,7 +84,7 @@ export const getUserNickname = async (userId: number): Promise<string> => {
 export const getUserHousehold = async (userId: number): Promise<string> => {
     return new Promise((resolve, reject) => {
         try {
-            connection.query(`SELECT * FROM users WHERE id=?;`, [userId], (err, result: User[]) => {
+            connection.query(`SELECT * FROM users WHERE id=?;`, [userId], (err: any, result: User[]) => {
                 resolve(result[0].household);
             })
         } catch {
@@ -100,7 +100,7 @@ export const getUserHousehold = async (userId: number): Promise<string> => {
 export const getUserStartingBalance = async (userId: number): Promise<number> => {
     return new Promise((resolve, reject) => {
         try {
-            connection.query(`SELECT * FROM users WHERE id=?;`, [userId], (err, result: User[]) => {
+            connection.query(`SELECT * FROM users WHERE id=?;`, [userId], (err: any, result: User[]) => {
                 resolve(result[0].balance);
             })
         } catch {
@@ -117,7 +117,7 @@ export const getUserStartingBalance = async (userId: number): Promise<number> =>
 export const setUserStartingBalance = async (userId: number, newBalance: number): Promise<void> => {
     return new Promise((resolve, reject) => {
         try {
-            connection.query(`UPDATE users SET balance=? WHERE id=?;`, [newBalance], (err, result: any) => {
+            connection.query(`UPDATE users SET balance=? WHERE id=?;`, [newBalance], (err: any, result: any) => {
                 resolve();
             });
         } catch {
@@ -133,7 +133,7 @@ export const setUserStartingBalance = async (userId: number, newBalance: number)
 export const getUserAllowance = async (userId: number): Promise<number> => {
     return new Promise((resolve, reject) => {
         try {
-            connection.query(`SELECT * FROM users WHERE id=?;`, [userId], (err, result: User[]) => {
+            connection.query(`SELECT * FROM users WHERE id=?;`, [userId], (err: any, result: User[]) => {
                 resolve(result[0].allowance);
             })
         } catch {
@@ -150,7 +150,7 @@ export const getUserAllowance = async (userId: number): Promise<number> => {
 export const setUserAllowance = async (userId: number, newAllowance: number): Promise<void> => {
     return new Promise((resolve, reject) => {
         try {
-            connection.query(`UPDATE users SET allowance=? WHERE id=?;`, [newAllowance], (err, result: any) => {
+            connection.query(`UPDATE users SET allowance=? WHERE id=?;`, [newAllowance], (err: any, result: any) => {
                 resolve();
             });
         } catch {
@@ -166,7 +166,7 @@ export const setUserAllowance = async (userId: number, newAllowance: number): Pr
 export const getUserDateCreated = async (userId: number): Promise<Date> => {
     return new Promise((resolve, reject) => {
         try {
-            connection.query(`SELECT * FROM users WHERE id=?;`, [userId], (err, result: User[]) => {
+            connection.query(`SELECT * FROM users WHERE id=?;`, [userId], (err: any, result: User[]) => {
                 resolve(new Date(result[0].time_created));
             })
         } catch {

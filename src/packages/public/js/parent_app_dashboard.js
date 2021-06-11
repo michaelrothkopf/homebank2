@@ -1,5 +1,5 @@
 const logout = async () => {
-    await fetchData('/api/v1/logout');
+    await fetchData('/api/v2/logout');
     window.location.href = "/";
 }
 
@@ -8,7 +8,7 @@ const logout = async () => {
  * @param {int} choreId The id of the chore to delete
  */
 const removeCompletedChore = async (choreId) => {
-    var removeChoreResponse = await fetchData('/api/v1/remove_completed_chore', {choreId: choreId});
+    let removeChoreResponse = await fetchData('/api/v2/removeCompletedChore', {choreId: choreId});
     console.log(removeChoreResponse)
     if (removeCompletedChore) $('#completed-chore-' + choreId.toString()).remove();
 }
@@ -18,13 +18,13 @@ const removeCompletedChore = async (choreId) => {
  * @param {int} purchaseId The id of the purchase to delete
  */
 const removeCompletedPurchase = async (purchaseId) => {
-    var removePurchaseResponse = await fetchData('/api/v1/remove_purchase', {purchaseId: purchaseId});
+    let removePurchaseResponse = await fetchData('/api/v2/removeUserPurchase', {purchaseId: purchaseId});
     console.log(removePurchaseResponse)
     if (removePurchaseResponse) $('#completed-purchase-' + purchaseId.toString()).remove();
 }
 
 const getChores = async () => {
-    var chores = await fetchData('/api/v1/get_chore_list');
+    let chores = await fetchData('/api/v2/get_chore_list');
     console.log(chores);
     if (chores.failed) {
         return;
@@ -35,7 +35,7 @@ const getChores = async () => {
                             Recently completed chores:
                         </div>
                     </div>`);
-    for (chore of chores.chores.reverse()) {
+    for (chore of chores.data.reverse()) {
         console.log(chore.name.toLowerCase().charAt(0).toUpperCase() + chore.name.slice(1))
         $("#choreList").append(
             `<div class="p-3 bg-secondary text-light d-flex flex-row" id="completed-chore-` + chore.id + `">
@@ -52,18 +52,16 @@ const getChores = async () => {
 }
 
 const getBalances = async () => {
-    var balances = await fetchData('/api/v1/get_household_balances');
-    console.log(balances);
-    if (balances.failed) {
-        return;
-    }
+    let balances = await fetchData('/api/v2/getHouseholdUsers');
+
     $("#balanceList").html(`
     <div class="p-3 bg-primary text-light d-flex flex-row">
                         <div class="balance pr-5">
                             Children's balances:
                         </div>
                     </div>`);
-    for (balance of balances.balances) {
+
+    for (balance of balances.data) {
         $("#balanceList").append(
             `<div class="p-3 bg-secondary text-light d-flex flex-row" id="completed-balance-` + balance.id + `">
                 <div class="balance">
@@ -76,7 +74,7 @@ const getBalances = async () => {
 }
 
 const getPurchases = async () => {
-    var purchases = await fetchData('/api/v1/get_household_purchases');
+    let purchases = await fetchData('/api/v2/getHouseholdPurchases');
     console.log(purchases);
     if (purchases.failed) {
         return;

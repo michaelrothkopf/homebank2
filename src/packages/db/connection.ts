@@ -1,5 +1,5 @@
 import mysql2 from "mysql2";
-import loadJson from "../../../common/loadJson";
+import loadJson from "../lib/loadJson";
 
 /**
  * The MySQL connection to the database

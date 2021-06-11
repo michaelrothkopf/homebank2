@@ -10,10 +10,12 @@ Homebank 2 is the second, better written version of Homebank.
 
 ## Structure
 
-|              Folder              |                         Description                         |
-| :------------------------------: | :---------------------------------------------------------: |
-| [backend docs](/src/packages/backend/docs)           |                        Back-end Documentation                        |
-|          [frontend docs](/src/packages/web/docks)           |                        Front-end Documentation                        |
-|     [web](/src/packages/web)     |                          Front-end                          |
-| [backend](/src/packages/backend) |                          Back-end                           |
-|      [common](/src/common)       | Common files that are used in both the front- and back-end. |
+|             Folder             |     Description     |
+| :----------------------------: | :-----------------: |
+|    [api](/src/packages/api)    |     API routes      |
+|   [auth](/src/packages/auth)   |   Auth libraries    |
+| [crypto](/src/packages/crypto) |  Crypto functions   |
+|  [database](/src/packages/db)  | Database interfaces |
+|   [html](/src/packages/html)   |     HTML files      |
+|    [lib](/src/packages/lib)    |    Common files     |
+| [public](/src/packages/public) |  Static web files   |

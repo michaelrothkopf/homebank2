@@ -1,5 +1,5 @@
-var selectedChore;
-var choreIndex;
+let selectedChore;
+let choreIndex;
 
 const setSelectedChore = async (choreId) => {
     selectedChore = choreId;
@@ -8,19 +8,19 @@ const setSelectedChore = async (choreId) => {
 
 const logout = async () => {
     console.log('loggin out');
-    await fetchData('/api/v1/logout');
+    await fetchData('/api/v2/logout');
     window.location.href = "/";
 }
 
 const removeCompletedChore = async (choreId) => {
-    var removeChoreResponse = await fetchData('/api/v1/remove_completed_chore', {choreId: choreId});
+    let removeChoreResponse = await fetchData('/api/v2/removeCompletedChore', {choreId: choreId});
     console.log(removeChoreResponse)
     if (removeCompletedChore) $('#completed-chore-' + choreId.toString()).remove();
     getBalance();
 }
 
 const getChores = async () => {
-    var chores = await fetchData('/api/v1/get_child_chore_list', {data: null});
+    let chores = await fetchData('/api/v2/get_child_chore_list', {data: null});
     console.log(chores);
     if (chores.failed) {
         return;
@@ -48,7 +48,7 @@ const getChores = async () => {
 }
 
 const getBalance = async () => {
-    var balance = await fetchData('/api/v1/get_user_balance');
+    let balance = await fetchData('/api/v2/get_user_balance');
 
     console.log(balance);
 
@@ -70,7 +70,7 @@ const getBalance = async () => {
 }
 
 const getAvailableChores = async () => {
-    var chores = await fetchData('/api/v1/get_household_available_chores');
+    let chores = await fetchData('/api/v2/get_household_available_chores');
 
     if (chores.failed) {
         return;
@@ -88,7 +88,7 @@ const getAvailableChores = async () => {
 }
 
 const logChore = async () => {
-    var response = await fetchData('/api/v1/log_chore', {choreId: selectedChore});
+    let response = await fetchData('/api/v2/log_chore', {choreId: selectedChore});
     
     if (response.failed) {
         $("#addChoreErrorText").html(response.message);

@@ -20,7 +20,7 @@ export interface Purchase extends RowDataPacket {
 export const getUserPurchases = async (userId: number): Promise<Purchase[]> => {
     return new Promise((resolve, reject) => {
         try {
-            connection.query(`SELECT * FROM purchases WHERE user=?;`, [userId], (err, result: Purchase[]) => {
+            connection.query(`SELECT * FROM purchases WHERE user=?;`, [userId], (err: any, result: Purchase[]) => {
                 resolve(result);
             });
         } catch {
@@ -36,7 +36,7 @@ export const getUserPurchases = async (userId: number): Promise<Purchase[]> => {
 export const getHouseholdPurchases = async (household: string): Promise<Purchase[]> => {
     return new Promise((resolve, reject) => {
         try {
-            connection.query(`SELECT * FROM purchases WHERE household=?;`, [household], (err, result: Purchase[]) => {
+            connection.query(`SELECT * FROM purchases WHERE household=?;`, [household], (err: any, result: Purchase[]) => {
                 resolve(result);
             });
         } catch {
@@ -53,7 +53,7 @@ export const getHouseholdPurchases = async (household: string): Promise<Purchase
 export const getPurchaseById = async (purchaseId: number): Promise<Purchase> => {
     return new Promise((resolve, reject) => {
         try {
-            connection.query(`SELECT * FROM purchases WHERE id=?;`, [purchaseId], (err, result: Purchase[]) => {
+            connection.query(`SELECT * FROM purchases WHERE id=?;`, [purchaseId], (err: any, result: Purchase[]) => {
                 resolve(result[0]);
             });
         } catch {

@@ -3,11 +3,11 @@ import { sha256 } from "../crypto/createHash";
 import { getUser, getUserByUsername, User, UserType } from "../db/user";
 import { RowDataPacket } from "mysql2";
 import { generateUuid } from "../crypto/uuid";
-import getUnixTime from "../../../common/getUnixTime";
+import getUnixTime from "../lib/getUnixTime";
 import { RecordType } from "../db/record";
 import { getChore } from "../db/chore";
 import { getCompletedChore } from "../db/completedChore";
-import { getHouseholdById } from "../db/household";
+import { createHousehold, getHouseholdById } from "../db/household";
 import { getPurchaseById } from "../db/purchase";
 
 export interface LoginKey extends RowDataPacket {
@@ -24,13 +24,19 @@ export interface LoginAttemptResult {
     user?: User,
 }
 
+export interface SignupAttemptResult {
+    success: boolean,
+    error?: string,
+    user?: User,
+}
+
 const LOGIN_KEY_LENGTH = 2592000;
 
 export const addLoginKey = async (userId: number): Promise<string> => {
     return new Promise((resolve, reject) => {
         try {
             const key = generateUuid();
-            connection.query(`INSERT INTO login_keys (login_key, time_created, length, user) VALUES ('?', ?, ?, ?)`, [key, getUnixTime(), LOGIN_KEY_LENGTH, userId], (err, result: LoginKey[]) => {
+            connection.query(`INSERT INTO login_keys (login_key, time_created, length, user) VALUES ('?', ?, ?, ?)`, [key, getUnixTime(), LOGIN_KEY_LENGTH, userId], (err: any, result: LoginKey[]) => {
                 resolve(key);
             })
         } catch {
@@ -65,7 +71,7 @@ export const verifyLogin = async (username: string, password: string): Promise<L
 export const getLoginKey = async (loginKey: string): Promise<LoginKey> => {
     return new Promise((resolve, reject) => {
         try {
-            connection.query(`SELECT * FROM login_keys WHERE login_key='?';`, [loginKey], (err, result: LoginKey[]) => {
+            connection.query(`SELECT * FROM login_keys WHERE login_key='?';`, [loginKey], (err: any, result: LoginKey[]) => {
                 resolve(result[0]);
             })
         } catch {
@@ -93,6 +99,59 @@ export const tokenIsValid = async (loginKey: string): Promise<LoginAttemptResult
         };
         return result;
     }
+}
+
+export const userExists = async (username: string): Promise<boolean> => {
+    try {
+        const result = await getUserByUsername(username);
+
+        result.id;
+
+        return true;
+    } catch {
+        return false;
+    }
+}
+
+export const signUp = async (username: string, password: string, time_created: number, balance: number, role: UserType, allowance: number, nickname: string, household: string): Promise<SignupAttemptResult> => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            if ((await userExists(username)))
+            {
+                const result: SignupAttemptResult = {
+                    success: false,
+                    error: "Username is already in use!",
+                };
+
+                resolve(result);
+            }
+
+            if (role == UserType.Parent)
+            {
+                const house = await createHousehold(household, getUnixTime());
+
+                household = house.code;
+            }
+
+            connection.query(`INSERT INTO users (username, password, time_created, balance, role, allowance, household, nickname) VALUES (?, ?, ?, ?, ?, ?, ?, ?);`, [username, sha256(password), time_created, balance, role, allowance, household, nickname], async (err: any) => {
+                const user = await getUserByUsername(username);
+
+                const result: SignupAttemptResult = {
+                    success: true,
+                    user: user,
+                };
+
+                resolve(result);
+            });
+        } catch {
+            const result: SignupAttemptResult = {
+                success: false,
+                error: "Server error processing sign-up.",
+            };
+
+            resolve(result);
+        }
+    })
 }
 
 export const userCanAccessRecord = async (userId: number, recordId: number, recordType: RecordType): Promise<boolean> => {

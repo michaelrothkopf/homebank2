@@ -1,5 +1,5 @@
 const logout = async () => {
-    await fetchData('/api/v1/logout');
+    await fetchData('/api/v2/logout');
     window.location.href = "/";
 }
 
@@ -8,13 +8,13 @@ const logout = async () => {
  * @param {int} purchaseId The id of the purchase to delete
  */
 const removeCompletedPurchase = async (purchaseId) => {
-    var removePurchaseResponse = await fetchData('/api/v1/remove_purchase', {purchaseId: purchaseId});
+    let removePurchaseResponse = await fetchData('/api/v2/removeUserPurchase', {purchaseId: purchaseId});
     console.log(removePurchaseResponse)
     if (removePurchaseResponse) $('#completed-purchase-' + purchaseId.toString()).remove();
 }
 
 const getPurchases = async () => {
-    var purchases = await fetchData('/api/v1/get_household_purchases');
+    let purchases = await fetchData('/api/v2/getHouseholdPurchases');
     console.log(purchases);
     if (purchases.failed) {
         $("#purchaseList").append('<div class="p-3 bg-secondary text-light d-flex flex-row" id="noPurchasesBox">Looks like your children haven\'t made any purchases!</div>');
