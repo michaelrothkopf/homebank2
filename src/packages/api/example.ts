@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 
 export = {
-    path: "/example",
+    path: "/api/v2/example",
     method: 'post',
     disabled: true,
     route: (req: Request, res: Response) => {

@@ -2,7 +2,7 @@ import { Request, Response } from "../lib/expressTypes";
 import { verifyLogin } from "../auth/verifyAuth";
 
 export = {
-    path: "/login",
+    path: "/api/v2/login",
     method: 'post',
     disabled: false,
     route: async (req: Request, res: Response) => {

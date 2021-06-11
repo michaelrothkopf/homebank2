@@ -5,7 +5,7 @@ import { getUserTotalBalance, UserType } from "../db/user";
 import { RecordType } from "../db/record";
 
 export = {
-    path: "/getHouseholdUserBalances",
+    path: "/api/v2/getHouseholdUserBalances",
     method: 'post',
     disabled: false,
     route: async (req: Request, res: Response) => {

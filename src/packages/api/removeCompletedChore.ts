@@ -5,7 +5,7 @@ import { removeCompletedChore } from "../db/completedChore";
 import { RecordType } from "../db/record";
 
 export = {
-    path: "/removeCompletedChore",
+    path: "/api/v2/removeCompletedChore",
     method: 'post',
     disabled: false,
     route: async (req: Request, res: Response) => {

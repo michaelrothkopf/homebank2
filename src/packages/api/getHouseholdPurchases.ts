@@ -6,7 +6,7 @@ import { RecordType } from "../db/record";
 import { getHousehold } from "../db/household";
 
 export = {
-    path: "/getHouseholdPurchases",
+    path: "/api/v2/getHouseholdPurchases",
     method: 'post',
     disabled: false,
     route: async (req: Request, res: Response) => {

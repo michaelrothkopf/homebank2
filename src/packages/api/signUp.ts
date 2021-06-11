@@ -3,7 +3,7 @@ import { signUp } from "../auth/verifyAuth";
 import getUnixTime from "../lib/getUnixTime";
 
 export = {
-    path: "/signUp",
+    path: "/api/v2/signUp",
     method: 'post',
     disabled: false,
     route: async (req: Request, res: Response) => {

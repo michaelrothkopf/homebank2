@@ -2,6 +2,12 @@
 
 Homebank 2 is the second, better written version of Homebank.
 
+For now, the refactor will only include the backend and necessary portions of the front-end to make it compatible.
+
+## Changelog
+
+The changelog has been moved to [changelog](/CHANGELOG.md).
+
 ## Branches
 
 -   `prod` Production Code

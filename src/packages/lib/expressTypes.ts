@@ -2,9 +2,6 @@ import { Application as _Application, Request as _Request, Response as _Response
 
 export interface Application extends _Application {}
 
-export interface Request extends _Request {
-    body?: any,
-    cookies?: any,
-}
+export interface Request extends _Request {}
 
 export interface Response extends _Response {}

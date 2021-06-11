@@ -1,3 +1,0 @@
-C:\Users\micha\source\repos\HomeBank\obj\Debug\HomeBank.njsprojAssemblyReference.cache
-C:\Users\micha\source\repos\HomeBank\obj\Debug\HomeBank.njsproj.CoreCompileInputs.cache
-C:\Users\micha\source\repos\HomeBank\bin\Microsoft.NodejsTools.WebRole.dll

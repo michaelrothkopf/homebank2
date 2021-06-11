@@ -3,7 +3,7 @@ import { tokenIsValid } from "../auth/verifyAuth";
 import { logCompletedChore } from "../db/completedChore";
 
 export = {
-    path: "/addCompletedChore",
+    path: "/api/v2/addCompletedChore",
     method: 'post',
     disabled: false,
     route: async (req: Request, res: Response) => {

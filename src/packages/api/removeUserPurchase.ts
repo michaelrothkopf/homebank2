@@ -5,7 +5,7 @@ import { RecordType } from "../db/record";
 import { UserType } from "../db/user";
 
 export = {
-    path: "/removeUserPurchase",
+    path: "/api/v2/removeUserPurchase",
     method: 'post',
     disabled: false,
     route: async (req: Request, res: Response) => {

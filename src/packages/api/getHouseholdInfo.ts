@@ -3,7 +3,7 @@ import { tokenIsValid } from "../auth/verifyAuth";
 import { getHousehold } from "../db/household";
 
 export = {
-    path: "/getHouseholdInfo",
+    path: "/api/v2/getHouseholdInfo",
     method: 'post',
     disabled: false,
     route: async (req: Request, res: Response) => {

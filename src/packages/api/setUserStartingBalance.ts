@@ -3,7 +3,7 @@ import { tokenIsValid } from "../auth/verifyAuth";
 import { getUserStartingBalance, setUserAllowance, setUserStartingBalance } from "../db/user";
 
 export = {
-    path: "/setUserStartingBalance",
+    path: "/api/v2/setUserStartingBalance",
     method: 'post',
     disabled: false,
     route: async (req: Request, res: Response) => {
