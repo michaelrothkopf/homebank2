@@ -1,8 +1,8 @@
 import { Request, Response } from "../lib/expressTypes";
 import { signUp } from "../auth/verifyAuth";
-import getUnixTime from "../lib/getUnixTime";
+import { getUnixTime } from "../lib/getUnixTime";
 
-export = {
+export const route = {
     path: "/api/v2/signUp",
     method: 'post',
     disabled: false,

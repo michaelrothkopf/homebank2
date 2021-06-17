@@ -2,7 +2,7 @@ import { Request, Response } from "../lib/expressTypes";
 import { tokenIsValid } from "../auth/verifyAuth";
 import { logCompletedChore } from "../db/completedChore";
 
-export = {
+export const route = {
     path: "/api/v2/ping",
     method: 'post',
     disabled: false,

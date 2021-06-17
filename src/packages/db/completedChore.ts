@@ -1,7 +1,7 @@
 import { connection } from "./connection";
 import { RowDataPacket } from "mysql2";
 import { getUserHousehold } from "./user";
-import getUnixTime from "../lib/getUnixTime";
+import { getUnixTime } from "../lib/getUnixTime";
 
 /**
  * Interface for a Completed Chore row in the database

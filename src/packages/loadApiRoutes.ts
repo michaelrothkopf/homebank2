@@ -14,8 +14,10 @@ export const genRoutes = (app: Application) => {
 
     const modules = Promise.all(apiRouteDirFiles.map(file => import(joinPaths(__dirname, "api", file))));
 
-    modules.then((apiRoutes: ApiRoute[]) => {
-        for (const apiRoute of apiRoutes) {
+    modules.then((apiRoutes: any[]) => {
+        for (const _apiRoute of apiRoutes) {
+            const apiRoute: ApiRoute = _apiRoute.route;
+
             if (apiRoute.disabled === true) {
                 continue;
             }

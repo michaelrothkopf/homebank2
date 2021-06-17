@@ -4,7 +4,7 @@ import { tokenIsValid, userCanAccessRecord } from "../auth/verifyAuth";
 import { UserType } from "../db/user";
 import { RecordType } from "../db/record";
 
-export = {
+export const route = {
     path: "/api/v2/getHouseholdUsers",
     method: 'post',
     disabled: false,

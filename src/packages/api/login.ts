@@ -1,7 +1,7 @@
 import { Request, Response } from "../lib/expressTypes";
 import { verifyLogin } from "../auth/verifyAuth";
 
-export = {
+export const route = {
     path: "/api/v2/login",
     method: 'post',
     disabled: false,

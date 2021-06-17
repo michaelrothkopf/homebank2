@@ -5,7 +5,7 @@ import { addHouseholdChore } from "../db/chore";
 import { getHousehold } from "../db/household";
 import { RecordType } from "../db/record";
 
-export = {
+export const route = {
     path: "/api/v2/addHouseholdChore",
     method: 'post',
     disabled: false,

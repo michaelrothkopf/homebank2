@@ -1,6 +1,6 @@
 import { connection } from "./connection";
 import { RowDataPacket } from "mysql2";
-import getUnixTime from "../lib/getUnixTime";
+import { getUnixTime } from "../lib/getUnixTime";
 
 /**
  * Interface for a Chore row in the databse

@@ -4,7 +4,7 @@ import { UserType } from "../db/user";
 import { removeHouseholdChore } from "../db/chore";
 import { RecordType } from "../db/record";
 
-export = {
+export const route = {
     path: "/api/v2/removeHouseholdChore",
     method: 'post',
     disabled: false,

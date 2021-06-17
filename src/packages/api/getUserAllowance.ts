@@ -2,7 +2,7 @@ import { Request, Response } from "../lib/expressTypes";
 import { tokenIsValid } from "../auth/verifyAuth";
 import { getUserAllowance } from "../db/user";
 
-export = {
+export const route = {
     path: "/api/v2/getUserAllowance",
     method: 'post',
     disabled: false,

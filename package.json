@@ -9,6 +9,7 @@
   "dependencies": {
     "@types/node": "*",
     "body-parser": "^1.19.0",
+    "chalk": "^4.1.1",
     "cookie-parser": "^1.4.5",
     "crypto": "^1.0.1",
     "express": "^4.17.1",
@@ -19,14 +20,26 @@
     "@types/cookie-parser": "^1.4.2",
     "@types/express": "^4.17.12",
     "@types/uuid": "^8.3.0",
+    "mkdirp": "^1.0.4",
+    "ncp": "^2.0.0",
     "nodemon": "^2.0.7",
+    "rimraf": "^3.0.2",
     "ts-node": "^9.1.1",
     "typedoc": "^0.20.36"
   },
   "scripts": {
-    "dev:backend": "nodemon src/packages/backend/index.ts",
-    "dev:web": "",
-    "dev": "yarn run dev:backend & yarn run dev:web",
-    "build": "tsc"
+    "clean": "npx rimraf ./dist",
+    "mkdir:dist": "npx mkdirp ./dist",
+    "mkdir": "yarn run mkdir:dist",
+    "prepareBuild": "yarn run clean && yarn run mkdir",
+    "makeBuild": "tsc",
+    "copy:config": "npx ncp ./src/config ./dist/config",
+    "copy": "yarn run copy:config",
+    "postBuild": "yarn run copy",
+    "build": "yarn run prepareBuild && yarn run makeBuild && yarn run postBuild",
+    "server:dev": "nodemon ./src/packages/index.ts",
+    "server:prod": "nodemon ./dist/index.js",
+    "dev": "yarn run server:dev",
+    "start": "yarn run build && yarn run server:prod"
   }
 }

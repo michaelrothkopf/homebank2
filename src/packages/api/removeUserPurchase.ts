@@ -4,7 +4,7 @@ import { removeUserPurchase } from "../db/purchase";
 import { RecordType } from "../db/record";
 import { UserType } from "../db/user";
 
-export = {
+export const route = {
     path: "/api/v2/removeUserPurchase",
     method: 'post',
     disabled: false,

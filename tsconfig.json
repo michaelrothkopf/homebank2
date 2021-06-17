@@ -4,6 +4,7 @@
     "outDir": "./dist",
     "esModuleInterop": true,
     "module": "commonjs",
-    "strict": true
+    "strict": true,
+    "jsx": "react-jsx"
   }
 }

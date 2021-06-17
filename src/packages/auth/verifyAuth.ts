@@ -3,7 +3,7 @@ import { sha256 } from "../crypto/createHash";
 import { getUser, getUserByUsername, User, UserType } from "../db/user";
 import { RowDataPacket } from "mysql2";
 import { generateUuid } from "../crypto/uuid";
-import getUnixTime from "../lib/getUnixTime";
+import { getUnixTime } from "../lib/getUnixTime";
 import { RecordType } from "../db/record";
 import { getChore } from "../db/chore";
 import { getCompletedChore } from "../db/completedChore";

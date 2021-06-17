@@ -2,7 +2,7 @@ import { Request, Response } from "../lib/expressTypes";
 import { tokenIsValid } from "../auth/verifyAuth";
 import { getUserChoresCompleted } from "../db/completedChore";
 
-export = {
+export const route = {
     path: "/api/v2/getUserCompletedChores",
     method: 'post',
     disabled: false,
