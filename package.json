@@ -28,6 +28,7 @@
     "typedoc": "^0.20.36"
   },
   "scripts": {
+    "docs": "npx typedoc ./src",
     "clean": "npx rimraf ./dist",
     "mkdir:dist": "npx mkdirp ./dist",
     "mkdir": "yarn run mkdir:dist",
