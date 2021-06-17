@@ -9,7 +9,7 @@ export interface ApiRoute {
     route: (req: Request, res: Response) => void,
 }
 
-export const genRoutes = (app: Application) => {
+export const genApiRoutes = (app: Application) => {
     const apiRouteDirFiles = readdirSync(joinPaths(__dirname, "api"));
 
     const modules = Promise.all(apiRouteDirFiles.map(file => import(joinPaths(__dirname, "api", file))));

@@ -4,7 +4,6 @@ import { Application, Request, Response } from "./lib/expressTypes";
 
 export interface ApiRoute {
     path: string,
-    method?: string,
     disabled?: boolean,
     route: (req: Request, res: Response) => void,
 }

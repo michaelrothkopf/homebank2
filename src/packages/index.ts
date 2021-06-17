@@ -1,4 +1,6 @@
-import { genRoutes } from "./loadApiRoutes"
+import { genApiRoutes } from "./loadApiRoutes"
+import { genRoutes } from "./loadRoutes";
+
 import express from "express";
 import { Application } from "./lib/expressTypes"
 
@@ -27,11 +29,27 @@ try {
 }
 
 try {
-    genRoutes(app);
+    genApiRoutes(app);
     
     console.log(chalk.green("[homebank] Successfully loaded backend API routes!"));
-} catch {
+} catch (err: any) {
     console.log(chalk.red("[homebank] Error loading backend API routes."));
+    console.log("Error message:");
+    console.log(err);
+
+    process.exit(1);
+}
+
+try {
+    genRoutes(app);
+    
+    console.log(chalk.green("[homebank] Successfully loaded frontend routes!"));
+} catch (err: any) {
+    console.log(chalk.red("[homebank] Error loading frontend routes."));
+    console.log("Error message:");
+    console.log(err);
+
+    process.exit(1);
 }
 
 app.listen(PORT, () => {
