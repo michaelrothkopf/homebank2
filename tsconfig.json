@@ -1,10 +1,10 @@
 {
   "compilerOptions": {
+    "strict": true,
     "target": "es6",
     "outDir": "./dist",
     "esModuleInterop": true,
     "module": "commonjs",
-    "strict": true,
-    "jsx": "react-jsx"
+    "jsx": "react"
   }
 }

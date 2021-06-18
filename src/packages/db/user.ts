@@ -19,7 +19,7 @@ export enum UserType {
 export interface User extends RowDataPacket {
     id: number,
     username: string,
-    password: string,
+    password?: string,
     time_created: number,
     balance: number,
     role: UserType,
@@ -37,7 +37,11 @@ export const getUser = async (userId: number): Promise<User> => {
     return new Promise((resolve, reject) => {
         try {
             connection.query(`SELECT * FROM users WHERE id=?;`, [userId], (err: any, result: User[]) => {
-                resolve(result[0]);
+                const user = result[0];
+
+                delete user.password;
+
+                resolve(user);
             })
         } catch {
             reject("Error getting user by ID.");

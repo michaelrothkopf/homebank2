@@ -8,6 +8,7 @@ import * as bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 
 import chalk from "chalk";
+import path from "path";
 
 console.log();
 
@@ -15,15 +16,29 @@ console.log(chalk.green("[homebank] Application started!"));
 
 const app: Application = express();
 
-const PORT = 5000;
+const PORT = 3000;
 
 try {
     app.use(bodyParser.json());
     app.use(cookieParser());
 
     console.log(chalk.green("[homebank] Successfully loaded Express middleware!"));
-} catch {
-    console.log(chalk.red("[homebank] Error loading express middleware!"));
+} catch (err: any) {
+    console.log(chalk.red("[homebank] Error loading Express middleware!"));
+    console.log("Error message:");
+    console.log(err);
+
+    process.exit(1);
+}
+
+try {
+    app.use('/public', express.static(path.resolve("./dist/public")));
+
+    console.log(chalk.green("[homebank] Successfully loaded Express static folder!"));
+} catch (err: any) {
+    console.log(chalk.red("[homebank] Error loading Express static folder!"));
+    console.log("Error message:");
+    console.log(err);
 
     process.exit(1);
 }
