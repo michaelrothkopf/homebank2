@@ -1,5 +1,21 @@
 # Changelog
 
+## v0.1.1a
+
+6/18/2021 @ 2:43 PM.
+
+Alpha 0.1.1.
+
+Changes:
+
+1. Added build scripts to the [package.json](package.json) file.
+2. Added [Webpack](webpack.config.client.js) to compile the frontend's React Typescript JSX.
+3. Changed [tsconfig.json](tsconfig.json) to allow JSX in the parsing.
+4. Added [Webpack](webpack.config.client.js) and [Babel](.babelrc.json) dependencies to [package.json](package.json).
+5. Began work on [front-end](src/packages/public/js) React code.
+6. Removed the pre-generated documentation folders, contributors now have to independently generate it.
+7. Many other minor changes and security fixes. Check the diff for more info.
+
 ## v0.1a
 
 6/11/2021 @ 1:11 PM.
