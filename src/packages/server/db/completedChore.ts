@@ -12,6 +12,8 @@ export interface CompletedChore extends RowDataPacket {
     time_completed: number,
     user: number,
     household: string,
+    choreName?: string,
+    completedUserNickname?: string,
 }
 
 /**

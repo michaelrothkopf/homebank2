@@ -1,4 +1,6 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { CompletedChore } from "../../server/db/completedChore"
+import fetchData from './fetchData';
 
 function GetTimeStringFromUnix(time: number): string
 {
@@ -51,9 +53,38 @@ interface DashboardContainerProps
 
 export function HouseholdCompletedChores()
 {
+    const [completedChores, setCompletedChores] = useState<CompletedChore[]>([]);
+
+    useEffect(() => {
+        fetchData("/api/v2/getHouseholdChoresCompleted").then(async (result: CompletedChore[]) => {
+            const newResult = [];
+            
+            const householdUsers = (await fetchData("/api/v2/getHouseholdUsers")).data;
+
+            for (const chore of result)
+            {
+                chore.choreName = (await fetchData("/api/v2/getChore", { choreId: chore.id })).data.name;
+                
+                for (const user of householdUsers)
+                {
+                    if (user.id == chore.user)
+                    {
+                        chore.completedUserNickname = user.nickname;
+                    }
+                }
+
+                newResult.push(chore);
+            }
+
+            setCompletedChores(newResult);
+        });
+    });
+
     return (
         <div className="column">
-
+            {completedChores.map((choreCompleted) => {
+                <Card cardTitle={`Chore`} cardTime={choreCompleted.time_completed} cardContent={`${choreCompleted.completedUserNickname} completed the "${choreCompleted.choreName}" chore.`} deleteHandler={(e:any)=>{}} />
+            })}
         </div>
     );
 }
