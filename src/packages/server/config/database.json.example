@@ -1,0 +1,15 @@
+{
+    "production": false,
+    "devDbConfig": {
+        "host": "localhost",
+        "user": "root",
+        "password": "",
+        "database": "homebank"
+    },
+    "prodDbConfig": {
+        "host": "localhost",
+        "user": "homebank_prod",
+        "password": "my_password",
+        "database": "homebank"
+    }
+}

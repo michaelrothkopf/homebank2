@@ -2,9 +2,11 @@
   "compilerOptions": {
     "strict": true,
     "target": "es6",
-    "outDir": "./dist",
+    "outDir": "./dist/packages/server",
     "esModuleInterop": true,
-    "module": "commonjs",
-    "jsx": "react"
-  }
+    "module": "commonjs"
+  },
+  "include": [
+    "./src/packages/server/**/*"
+  ]
 }
