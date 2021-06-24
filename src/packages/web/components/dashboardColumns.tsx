@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from "react"
 import { CompletedChore } from "../../server/db/completedChore"
-import fetchData from './fetchData';
+import fetchData from "./fetchData";
 
 function GetTimeStringFromUnix(time: number): string
 {
     const date = new Date(time * 1000);
-    const localeString = date.toLocaleString('default');
+    const localeString = date.toLocaleString("default");
     return localeString;
 }
 
