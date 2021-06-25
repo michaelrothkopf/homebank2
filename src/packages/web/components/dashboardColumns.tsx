@@ -35,7 +35,7 @@ export function Card(props: CardProps)
             </header>
             <div className="card-content">
                 <div className="content">
-                    {props.cardContent}
+                    <span>{props.cardContent}</span>
                     <UnixTime time={props.cardTime} />
                 </div>
             </div>

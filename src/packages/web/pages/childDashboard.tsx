@@ -2,11 +2,13 @@ import React from 'react';
 
 import { ParentNavUI } from "../components/navui"
 import { Card } from "../components/dashboardColumns"
+import LoginErrorModal from '../components/loginErrorModal';
 
 export default function ChildDashboard()
 {
     return (
         <div className="appContainer">
+            <LoginErrorModal />
             <ParentNavUI activePage="Dashboard" />
             <h1>Hello from Homebank 2.0!</h1>
             <div className="container">

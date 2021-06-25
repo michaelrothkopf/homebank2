@@ -4,7 +4,7 @@ exports.id = 888;
 exports.ids = [888];
 exports.modules = {
 
-/***/ 116:
+/***/ 177:
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -21,63 +21,8 @@ var jsx_runtime_ = __webpack_require__(282);
 ;// CONCATENATED MODULE: external "next/script"
 var script_namespaceObject = require("next/script");;
 var script_default = /*#__PURE__*/__webpack_require__.n(script_namespaceObject);
-// EXTERNAL MODULE: external "react"
-var external_react_ = __webpack_require__(297);
-;// CONCATENATED MODULE: ./components/fetchData.ts
-async function fetchData(url, data) {
-  const fetchResult = await fetch(url, {
-    method: 'POST',
-    mode: 'cors',
-    cache: 'no-cache',
-    credentials: 'same-origin',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    redirect: 'follow',
-    referrerPolicy: 'no-referrer',
-    body: JSON.stringify(data)
-  });
-  const json = await fetchResult.json();
-  return json;
-}
-;// CONCATENATED MODULE: ./components/loginErrorModal.tsx
-
-
-
-
-
-function LoginErrorModal() {
-  const {
-    0: isLoggedIn,
-    1: setIsLoggedIn
-  } = (0,external_react_.useState)(false);
-  (0,external_react_.useEffect)(() => {
-    fetchData("/api/v2/checkLoginStatus").then(result => {
-      setIsLoggedIn(result.data);
-    });
-  });
-  return /*#__PURE__*/jsx_runtime_.jsx(jsx_runtime_.Fragment, {
-    children: !isLoggedIn ? /*#__PURE__*/(0,jsx_runtime_.jsxs)("div", {
-      className: "modal",
-      children: [/*#__PURE__*/jsx_runtime_.jsx("div", {
-        className: "modal-background"
-      }), /*#__PURE__*/(0,jsx_runtime_.jsxs)("div", {
-        className: "modal-content",
-        children: [/*#__PURE__*/jsx_runtime_.jsx("h1", {
-          className: "title is-1",
-          children: "Warning: You aren't logged in!"
-        }), "It appears you aren't logged in to homebank! This may cause issues or errors loading data, and you won't be able to use homebank as intended. Click the button below to log in:", /*#__PURE__*/jsx_runtime_.jsx("a", {
-          href: "/",
-          className: "button",
-          children: "Log In"
-        })]
-      }), /*#__PURE__*/jsx_runtime_.jsx("button", {
-        className: "modal-close is-large",
-        "aria-label": "close"
-      })]
-    }) : /*#__PURE__*/jsx_runtime_.jsx(jsx_runtime_.Fragment, {})
-  });
-}
+// EXTERNAL MODULE: ./components/loginErrorModal.tsx + 1 modules
+var loginErrorModal = __webpack_require__(804);
 ;// CONCATENATED MODULE: ./pages/_app.js
 
 
@@ -98,7 +43,7 @@ function MyApp({
   pageProps
 }) {
   return /*#__PURE__*/(0,jsx_runtime_.jsxs)(jsx_runtime_.Fragment, {
-    children: [/*#__PURE__*/jsx_runtime_.jsx(LoginErrorModal, {}), /*#__PURE__*/jsx_runtime_.jsx((script_default()), {
+    children: [/*#__PURE__*/jsx_runtime_.jsx((script_default()), {
       src: "https://kit.fontawesome.com/c669d65f93.js",
       crossOrigin: "anonymous"
     }), /*#__PURE__*/jsx_runtime_.jsx(Component, _objectSpread({}, pageProps))]
@@ -132,7 +77,7 @@ module.exports = require("react/jsx-runtime");;
 var __webpack_require__ = require("../webpack-runtime.js");
 __webpack_require__.C(exports);
 var __webpack_exec__ = function(moduleId) { return __webpack_require__(__webpack_require__.s = moduleId); }
-var __webpack_exports__ = (__webpack_exec__(116));
+var __webpack_exports__ = __webpack_require__.X(0, [804], function() { return __webpack_exec__(177); });
 module.exports = __webpack_exports__;
 
 })();
