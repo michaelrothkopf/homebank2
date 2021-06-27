@@ -57,6 +57,8 @@ export const getUserByUsername = async (username: string): Promise<User> => {
     return new Promise((resolve, reject) => {
         try {
             connection.query(`SELECT * FROM users WHERE username=?;`, [username], (err: any, result: User[]) => {
+                delete result[0].password;
+
                 resolve(result[0]);
             })
         } catch {

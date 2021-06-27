@@ -18,11 +18,12 @@ export const route = {
             return;
         }
 
-        if (!(await userCanAccessRecord(validationResult.user.id, req.body.choreId, RecordType.ChoreCompleted))) {
+        if (!(await userCanAccessRecord(validationResult.user.id, req.body.choreId, RecordType.Chore))) {
             res.send({
                 failed: true,
                 data: null,
             });
+            return;
         }
 
         const data = await getChore(req.body.choreId);

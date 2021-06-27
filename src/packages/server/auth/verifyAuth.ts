@@ -36,7 +36,7 @@ export const addLoginKey = async (userId: number): Promise<string> => {
     return new Promise((resolve, reject) => {
         try {
             const key = generateUuid();
-            connection.query(`INSERT INTO login_keys (login_key, time_created, length, user) VALUES ('?', ?, ?, ?)`, [key, getUnixTime(), LOGIN_KEY_LENGTH, userId], (err: any, result: LoginKey[]) => {
+            connection.query(`INSERT INTO login_keys (login_key, time_created, length, user) VALUES (?, ?, ?, ?);`, [key, getUnixTime(), LOGIN_KEY_LENGTH, userId], (err: any, result: LoginKey[]) => {
                 resolve(key);
             })
         } catch {
@@ -52,6 +52,9 @@ export const verifyLogin = async (username: string, password: string): Promise<L
 
     if (user && user.password == hashedPassword) {
         const loginKey = await addLoginKey(user.id);
+
+        console.log(`Login key: ${loginKey}`);
+
         const result: LoginAttemptResult = {
             user,
             loginKey,
@@ -71,7 +74,7 @@ export const verifyLogin = async (username: string, password: string): Promise<L
 export const getLoginKey = async (loginKey: string): Promise<LoginKey> => {
     return new Promise((resolve, reject) => {
         try {
-            connection.query(`SELECT * FROM login_keys WHERE login_key='?';`, [loginKey], (err: any, result: LoginKey[]) => {
+            connection.query(`SELECT * FROM login_keys WHERE login_key=?;`, [loginKey], (err: any, result: LoginKey[]) => {
                 resolve(result[0]);
             })
         } catch {

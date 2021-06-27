@@ -12,8 +12,6 @@ export interface CompletedChore extends RowDataPacket {
     time_completed: number,
     user: number,
     household: string,
-    choreName?: string,
-    completedUserNickname?: string,
 }
 
 /**
@@ -39,7 +37,7 @@ export const getUserChoresCompleted = async (userId: number): Promise<CompletedC
 export const getCompletedChore = async (userId: number): Promise<CompletedChore> => {
     return new Promise((resolve, reject) => {
         try {
-            connection.query(`SELECT * FROM chores_completed WHERE user=?;`, [userId], (err: any, result: CompletedChore[]) => {
+            connection.query(`SELECT * FROM chores_completed WHERE id=?;`, [userId], (err: any, result: CompletedChore[]) => {
                 resolve(result[0]);
             })
         } catch {
@@ -83,7 +81,7 @@ export const removeCompletedChore = async (choreId: number) => {
 export const getHouseholdChoresCompleted = async (household: string): Promise<CompletedChore[]> => {
     return new Promise((resolve, reject) => {
         try {
-            connection.query(`SELECT * FROM chores_completed WHERE id=?;`, [household], (err: any, result: CompletedChore[]) => {
+            connection.query(`SELECT * FROM chores_completed WHERE household=?;`, [household], (err: any, result: CompletedChore[]) => {
                 resolve(result);
             })
         } catch {

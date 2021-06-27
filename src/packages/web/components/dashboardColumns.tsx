@@ -1,6 +1,14 @@
 import React, { useEffect, useState } from "react"
-import { CompletedChore } from "../../server/db/completedChore"
+import { Chore } from "../../server/db/chore";
+import { CompletedChore as _CompletedChore } from "../../server/db/completedChore"
 import fetchData from "./fetchData";
+
+export interface CompletedChore extends _CompletedChore
+{
+    choreName?: string,
+    completedUserNickname?: string,
+    completedChoreValue?: number,
+}
 
 function GetTimeStringFromUnix(time: number): string
 {
@@ -27,21 +35,23 @@ export interface CardProps
 export function Card(props: CardProps)
 {
     return (
-        <div className="card">
-            <header className="card-header">
-                <p className="card-header-title">
-                    {props.cardTitle}
-                </p>
-            </header>
-            <div className="card-content">
-                <div className="content">
-                    <span>{props.cardContent}</span>
-                    <UnixTime time={props.cardTime} />
+        <div className="block">
+            <div className="card">
+                <header className="card-header">
+                    <p className="card-header-title">
+                        {props.cardTitle}
+                    </p>
+                </header>
+                <div className="card-content">
+                    <div className="content">
+                        <p>{props.cardContent}</p>
+                        <UnixTime time={props.cardTime} />
+                    </div>
                 </div>
+                <footer className="card-footer">
+                    <a onClick={props.deleteHandler} className="card-footer-item">Delete</a>
+                </footer>
             </div>
-            <footer className="card-footer">
-                <a onClick={props.deleteHandler} className="card-footer-item">Delete</a>
-            </footer>
         </div>
     );
 }
@@ -51,19 +61,44 @@ interface DashboardContainerProps
     children: any,
 }
 
+export function ChoreCard(props: { chore: CompletedChore })
+{
+    const [isDeleted, setIsDeleted] = useState<boolean>(false);
+
+    const deleteChoreHandler = (e: any) => {
+        fetchData("/api/v2/removeCompletedChore", { completedChoreId: props.chore.id }).then((response: any) => {
+            if (response.data === true)
+            {
+                setIsDeleted(true);
+            }
+        });
+    }
+
+    return (
+        <>
+            {(!isDeleted) ?
+                <Card cardTitle={`Chore`} cardTime={props.chore.time_completed} cardContent={`${props.chore.completedUserNickname} completed the "${props.chore.choreName}" chore for $${props.chore.completedChoreValue}.`} deleteHandler={deleteChoreHandler} />
+            :
+            <></>}
+        </>
+    );
+}
+
 export function HouseholdCompletedChores()
 {
     const [completedChores, setCompletedChores] = useState<CompletedChore[]>([]);
 
     useEffect(() => {
-        fetchData("/api/v2/getHouseholdChoresCompleted").then(async (result: CompletedChore[]) => {
-            const newResult = [];
+        fetchData("/api/v2/getHouseholdChoresCompleted").then(async (result: { data: CompletedChore[] }) => {
             
             const householdUsers = (await fetchData("/api/v2/getHouseholdUsers")).data;
 
-            for (const chore of result)
+            for (const chore of result.data)
             {
-                chore.choreName = (await fetchData("/api/v2/getChore", { choreId: chore.id })).data.name;
+                const choreInfo: { data: Chore} = (await fetchData("/api/v2/getChore", { choreId: chore.chore }));
+
+                chore.choreName = choreInfo.data.name;
+                chore.completedChoreValue = choreInfo.data.value;
                 
                 for (const user of householdUsers)
                 {
@@ -72,19 +107,17 @@ export function HouseholdCompletedChores()
                         chore.completedUserNickname = user.nickname;
                     }
                 }
-
-                newResult.push(chore);
             }
 
-            setCompletedChores(newResult);
+            setCompletedChores(result.data);
         });
-    });
+    }, []);
 
     return (
         <div className="column">
-            {completedChores.map((choreCompleted) => {
-                <Card cardTitle={`Chore`} cardTime={choreCompleted.time_completed} cardContent={`${choreCompleted.completedUserNickname} completed the "${choreCompleted.choreName}" chore.`} deleteHandler={(e:any)=>{}} />
-            })}
+            {completedChores.map((choreCompleted) => 
+                <ChoreCard key={choreCompleted.id} chore={choreCompleted} />
+            )}
         </div>
     );
 }

@@ -68,7 +68,7 @@ export const getChoreValue = async (choreId: number): Promise<number> => {
 export const getHouseholdChores = async (household: string): Promise<Chore[]> => {
     return new Promise((resolve, reject) => {
         try {
-            connection.query(`SELECT * FROM chores WHERE household='?';`, [household], (err: any, result: Chore[]) => {
+            connection.query(`SELECT * FROM chores WHERE household=??';`, [household], (err: any, result: Chore[]) => {
                 resolve(result);
             })
         } catch {

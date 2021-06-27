@@ -11,12 +11,12 @@ export const route = {
         if (!validationResult.success || !validationResult.user) {
             res.send({
                 failed: false,
-                data: false,
+                data: { loggedIn: false },
             });
         } else {
             res.send({
                 failed: false,
-                data: true,
+                data: { loggedIn: true, role: validationResult.user.role },
             });
         }
     },

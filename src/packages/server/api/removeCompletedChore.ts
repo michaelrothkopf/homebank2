@@ -19,14 +19,15 @@ export const route = {
             return;
         }
 
-        if (!(await userCanAccessRecord(validationResult.user.id, req.body.choreId, RecordType.ChoreCompleted))) {
+        if (!(await userCanAccessRecord(validationResult.user.id, req.body.completedChoreId, RecordType.ChoreCompleted))) {
             res.send({
                 failed: true,
-                data: null
+                data: "Invalid useraccessrecord"
             });
+            return;
         }
 
-        const data = await removeCompletedChore(req.body.choreId);
+        const data = await removeCompletedChore(req.body.completedChoreId);
 
         res.send({
             failed: false,

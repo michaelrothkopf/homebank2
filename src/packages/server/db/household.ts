@@ -20,7 +20,7 @@ export interface Household extends RowDataPacket {
 export const getHousehold = async (code: string): Promise<Household> => {
     return new Promise((resolve, reject) => {
         try {
-            connection.query(`SELECT * FROM households WHERE code='?';`, [code], (err: any, result: Household[]) => {
+            connection.query(`SELECT * FROM households WHERE code=?;`, [code], (err: any, result: Household[]) => {
                 resolve(result[0]);
             });
         } catch {
@@ -58,11 +58,16 @@ export const createHousehold = async (name: string, time_created: number): Promi
 export const getHouseholdUsers = async (code: string): Promise<User[]> => {
     return new Promise((resolve, reject) => {
         try {
-            connection.query(`SELECT * FROM users WHERE household='?';`, [code], (err: any, result: User[]) => {
+            connection.query(`SELECT * FROM users WHERE household=?;`, [code], (err: any, result: User[]) => {
+                for (const user of result)
+                {
+                    delete user.password;
+                }
+
                 resolve(result);
             });
         } catch {
-            reject("Error getting chore.");
+            reject("Error getting household users.");
         }
     });
 }
@@ -78,7 +83,7 @@ export const getHouseholdById = async (householdId: number): Promise<Household> 
                 resolve(result[0]);
             });
         } catch {
-            reject("Error getting chore.");
+            reject("Error getting household by ID.");
         }
     });
 }
