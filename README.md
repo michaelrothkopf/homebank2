@@ -18,10 +18,5 @@ The changelog has been moved to [changelog](/CHANGELOG.md).
 
 |             Folder             |     Description     |
 | :----------------------------: | :-----------------: |
-|    [api](/src/packages/api)    |     API routes      |
-|   [auth](/src/packages/auth)   |   Auth libraries    |
-| [crypto](/src/packages/crypto) |  Crypto functions   |
-|  [database](/src/packages/db)  | Database interfaces |
-|   [html](/src/packages/html)   |     HTML files      |
-|    [lib](/src/packages/lib)    |    Common files     |
-| [public](/src/packages/public) |  Static web files   |
+| [server](/src/packages/server) |    Server files     |
+|    [web](/src/packages/web)    | Front-end web files |

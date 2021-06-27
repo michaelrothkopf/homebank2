@@ -11,10 +11,18 @@ export const route = {
         if (response.success) {
             res.cookie("loginKey", response.loginKey, { httpOnly: true });
 
-            res.send({
-                failed: false,
-                data: response.loginKey,
-            });
+            if (response.user)
+            {
+                res.send({
+                    failed: false,
+                    data: { loginKey: response.loginKey, accountType: response.user.role },
+                });
+            } else {
+                res.send({
+                    failed: false,
+                    data: { loginKey: response.loginKey, accountType: null },
+                });
+            }
         } else {
             res.send({
                 failed: true,

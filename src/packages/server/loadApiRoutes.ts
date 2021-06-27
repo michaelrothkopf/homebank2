@@ -10,8 +10,9 @@ export interface ApiRoute {
 }
 
 export const genApiRoutes = (app: Application) => {
-    const apiRouteDirFiles = readdirSync(joinPaths(__dirname, "api"));
+    const unfilteredApiRouteDirFiles = readdirSync(joinPaths(__dirname, "api"));
 
+    const apiRouteDirFiles = unfilteredApiRouteDirFiles.filter(file => /\.(ts|js)$/gm.test(file));
     const modules = Promise.all(apiRouteDirFiles.map(file => import(joinPaths(__dirname, "api", file))));
 
     modules.then((apiRoutes: any[]) => {

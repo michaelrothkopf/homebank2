@@ -50,7 +50,7 @@ export const verifyLogin = async (username: string, password: string): Promise<L
 
     const user = await getUserByUsername(username);
 
-    if (user.password = hashedPassword) {
+    if (user && user.password == hashedPassword) {
         const loginKey = await addLoginKey(user.id);
         const result: LoginAttemptResult = {
             user,

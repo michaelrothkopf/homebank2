@@ -61,6 +61,9 @@
     "server:backend": "nodemon ./dist/packages/server/index.js",
     "server:frontend": "npx next start ./dist/packages/web",
     "server": "npx npm-run-all --parallel server:backend server:frontend",
+    "server:dev:backend": "nodemon ./src/packages/server/index.ts",
+    "server:dev:frontend": "npx next dev ./src/packages/web",
+    "server:dev": "npm-run-all --parallel server:dev:backend server:dev:frontend",
     "dev": "yarn run server:dev",
     "start": "yarn run build && yarn run server"
   }
