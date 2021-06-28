@@ -1,6 +1,7 @@
 import { connection } from "./connection";
 import { RowDataPacket } from "mysql2";
 import { getUserHousehold } from "./user";
+import { getUnixTime } from "../lib/getUnixTime";
 
 /**
  * Interface for a purchase row in the database
@@ -11,6 +12,7 @@ export interface Purchase extends RowDataPacket {
     user: number,
     amount: number,
     household: string,
+    time_added: number,
 }
 
 /**
@@ -71,7 +73,7 @@ export const getPurchaseById = async (purchaseId: number): Promise<Purchase> => 
  */
 export const logUserPurchase = async (userId: number, item: string, amount: number): Promise<void> => {
     const household = await getUserHousehold(userId);
-    connection.query(`INSERT INTO purchases (item, user, amount, household) VALUES (?, ?, ?, '?')`, [item, userId, amount, household], (err) => {
+    connection.query(`INSERT INTO purchases (item, user, amount, household, time_added) VALUES (?, ?, ?, ?, ?)`, [item, userId, amount, household, getUnixTime()], (err) => {
         return;
     });
 }

@@ -1,8 +1,7 @@
-import React from 'react';
-
 import { ParentNavUI } from "../components/navui"
-import { Card, DashboardContainer, HouseholdCompletedChores } from "../components/dashboardColumns"
-import LoginErrorModal from '../components/loginErrorModal';
+import LoginErrorModal from '../components/loginErrorModal'
+
+import { Card, DashboardContainer, HouseholdCompletedChoresColumn, HouseholdPurchasesColumn, HouseholdUsersColumn } from "../components/dashboardColumns"
 
 export default function ParentDashboard()
 {
@@ -10,11 +9,12 @@ export default function ParentDashboard()
         <div className="appContainer">
             <LoginErrorModal role="parent" />
             <ParentNavUI activePage="Dashboard" />
-            <div className="container">
-                <DashboardContainer>
-                    <HouseholdCompletedChores />
-                </DashboardContainer>
-            </div>
+            <br />
+            <DashboardContainer>
+                <HouseholdCompletedChoresColumn />
+                <HouseholdUsersColumn />
+                <HouseholdPurchasesColumn />
+            </DashboardContainer>
         </div>
     );
 }

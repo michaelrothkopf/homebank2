@@ -68,7 +68,7 @@ export const getChoreValue = async (choreId: number): Promise<number> => {
 export const getHouseholdChores = async (household: string): Promise<Chore[]> => {
     return new Promise((resolve, reject) => {
         try {
-            connection.query(`SELECT * FROM chores WHERE household=??';`, [household], (err: any, result: Chore[]) => {
+            connection.query(`SELECT * FROM chores WHERE household=?;`, [household], (err: any, result: Chore[]) => {
                 resolve(result);
             })
         } catch {
@@ -86,7 +86,7 @@ export const getHouseholdChores = async (household: string): Promise<Chore[]> =>
 export const addHouseholdChore = async (household: string, name: string, value: number): Promise<boolean> => {
     return new Promise((resolve, reject) => {
         try {
-            connection.query(`INSERT INTO chores (household, name, value, time_created) VALUES ('?', '?', ?, ?);`, [household, name, value, getUnixTime()], (err, ) => {
+            connection.query(`INSERT INTO chores (household, name, value, time_created) VALUES (?, ?, ?, ?);`, [household, name, value, getUnixTime()], (err, ) => {
                 resolve(true);
             })
         } catch {

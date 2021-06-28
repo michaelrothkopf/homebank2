@@ -20,13 +20,6 @@ export const route = {
             return;
         }
 
-        if (!(await userCanAccessRecord(validationResult.user.id, (await getHousehold(validationResult.user.household)).id, RecordType.Household))) {
-            res.send({
-                failed: true,
-                data: null
-            });
-        }
-
         const data = await getHouseholdPurchases(validationResult.user.household);
 
         res.send({

@@ -84,8 +84,8 @@ function ParentTabs(props: NavUIProps)
     return (
         <div className="tabs is-centered">
             <ul>
-                <Tab href="/dashboard" text="Dashboard" icon="tachometer-alt" activePage={props.activePage} />
-                <Tab href="/chores" text="Chores" icon="broom" activePage={props.activePage} />
+                <Tab href="/parentDashboard" text="Dashboard" icon="tachometer-alt" activePage={props.activePage} />
+                <Tab href="/parentChores" text="Chores" icon="broom" activePage={props.activePage} />
                 <Tab href="/purchases" text="Purchases" icon="dollar-sign" activePage={props.activePage} />
                 <Tab href="/settings" text="Settings" icon="cogs" activePage={props.activePage} />
             </ul>
