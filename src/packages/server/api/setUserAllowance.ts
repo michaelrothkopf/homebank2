@@ -1,6 +1,7 @@
 import { Request, Response } from "../lib/expressTypes";
-import { tokenIsValid } from "../auth/verifyAuth";
+import { tokenIsValid, userCanAccessRecord } from "../auth/verifyAuth";
 import { getUserStartingBalance, setUserAllowance } from "../db/user";
+import { RecordType } from "../db/record";
 
 export const route = {
     path: "/api/v2/setUserAllowance",
@@ -17,7 +18,15 @@ export const route = {
             return;
         }
 
-        const data = await setUserAllowance(validationResult.user.id, req.body.newAllowance);
+        if (!(await userCanAccessRecord(validationResult.user.id, req.body.userId, RecordType.User))) {
+            res.send({
+                failed: true,
+                data: null
+            });
+            return;
+        }
+
+        const data = await setUserAllowance(req.body.userId, req.body.newAllowance);
 
         res.send({
             failed: false,

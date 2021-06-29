@@ -24,6 +24,7 @@ export const route = {
                 failed: true,
                 data: null
             });
+            return;
         }
 
         const data = await removeHouseholdChore(req.body.choreId);

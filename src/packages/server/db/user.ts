@@ -123,7 +123,7 @@ export const getUserStartingBalance = async (userId: number): Promise<number> =>
 export const setUserStartingBalance = async (userId: number, newBalance: number): Promise<void> => {
     return new Promise((resolve, reject) => {
         try {
-            connection.query(`UPDATE users SET balance=? WHERE id=?;`, [newBalance], (err: any, result: any) => {
+            connection.query(`UPDATE users SET balance=? WHERE id=?;`, [newBalance, userId], (err: any, result: any) => {
                 resolve();
             });
         } catch {
@@ -156,7 +156,7 @@ export const getUserAllowance = async (userId: number): Promise<number> => {
 export const setUserAllowance = async (userId: number, newAllowance: number): Promise<void> => {
     return new Promise((resolve, reject) => {
         try {
-            connection.query(`UPDATE users SET allowance=? WHERE id=?;`, [newAllowance], (err: any, result: any) => {
+            connection.query(`UPDATE users SET allowance=? WHERE id=?;`, [newAllowance, userId], (err: any, result: any) => {
                 resolve();
             });
         } catch {

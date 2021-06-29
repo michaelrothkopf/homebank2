@@ -156,6 +156,65 @@ export function HouseholdChoreCard(props: { chore: Chore })
     );
 }
 
+export function HouseholdSettingsCard(props: { user: User, settingsUpdateHandler: () => void })
+{
+    const [allowanceValue, setAllowanceValue] = useState<number>(0);
+    const [startingBalance, setStartingBalance] = useState<number>(0);
+
+    const allowanceChangeHandler = (e: any) => {
+        setAllowanceValue(parseFloat(e.target.value));
+    }
+
+    const setAllowanceButtonHandler = (e: any) => {
+        fetchData("/api/v2/setUserAllowance", { userId: props.user.id, newAllowance: allowanceValue }).then(() => {
+            props.settingsUpdateHandler();
+        })
+    }
+
+    const startingBalanceChangeHandler = (e: any) => {
+        setStartingBalance(parseFloat(e.target.value));
+    }
+
+    const setStartingBalanceButtonHandler = (e: any) => {
+        fetchData("/api/v2/setUserStartingBalance", { userId: props.user.id, newBalance: startingBalance }).then(() => {
+            props.settingsUpdateHandler();
+        })
+    }
+
+    return (
+        <div className="block">
+            <div className="card">
+                <header className="card-header">
+                    <p className="card-header-title">
+                        {props.user.nickname}
+                    </p>
+                </header>
+                <div className="card-content">
+                    <div className="content">
+                        <p>{`Allowance: $${(props.user.allowance).toLocaleString('default', { minimumFractionDigits: 2 })}`}</p>
+                        <p>{`Starting balance: $${(props.user.balance).toLocaleString('default', { minimumFractionDigits: 2 })}`}</p>
+                        <br />
+                        <div className="field">
+                            <label className="label">New Allowance</label>
+                            <div className="control">
+                                <input type="number" className="input" placeholder="User's new allowance" onChange={allowanceChangeHandler} />
+                                <button className="button is-link" onClick={setAllowanceButtonHandler}>Set</button>
+                            </div>
+                        </div>
+                        <div className="field">
+                            <label className="label">New Starting Balance</label>
+                            <div className="control">
+                                <input type="number" className="input" placeholder="User's new starting balance" onChange={startingBalanceChangeHandler} />
+                                <button className="button is-link" onClick={setStartingBalanceButtonHandler}>Set</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+}
+
 export function HouseholdCompletedChoresColumn()
 {
     const [completedChores, setCompletedChores] = useState<CompletedChore[]>([]);
@@ -187,9 +246,11 @@ export function HouseholdCompletedChoresColumn()
 
     return (
         <div className="column">
-            {completedChores.map((choreCompleted) => 
-                <CompletedChoreCard key={choreCompleted.id} chore={choreCompleted} />
-            )}
+            {(completedChores.length > 0) ?
+            completedChores.map((choreCompleted) => 
+            <CompletedChoreCard key={choreCompleted.id} chore={choreCompleted} />
+            ) :
+            <h1 className="title">Loading...</h1>}
         </div>
     );
 }
@@ -206,9 +267,11 @@ export function HouseholdUsersColumn()
 
     return (
         <div className="column">
-            {householdUsers.map((householdUser) => 
-                <HouseholdUserCard key={householdUser.id} user={householdUser} />
-            )}
+            {(householdUsers.length > 0) ?
+            householdUsers.map((householdUser) => 
+            <HouseholdUserCard key={householdUser.id} user={householdUser} />
+            ) :
+            <h1 className="title">Loading...</h1>}
         </div>
     );
 }
@@ -238,9 +301,11 @@ export function HouseholdPurchasesColumn()
 
     return (
         <div className="column">
-            {householdPurchases.map((householdPurchase) => 
-                <PurchaseCard key={householdPurchase.id} purchase={householdPurchase} />
-            )}
+            {(householdPurchases.length > 0) ?
+            householdPurchases.map((householdPurchase) => 
+            <PurchaseCard key={householdPurchase.id} purchase={householdPurchase} />
+            ) :
+            <h1 className="title">Loading...</h1>}
         </div>
     );
 }
@@ -251,17 +316,17 @@ export function HouseholdChoresColumn()
 
     useEffect(() => {
         fetchData("/api/v2/getHouseholdChores").then(async (result: { data: Chore[] }) => {
-
-            console.log(result)
             setHouseholdChores(result.data);
         });
     }, []);
 
     return (
         <div className="column">
-            {householdChores.map((householdChore) => 
-                <HouseholdChoreCard key={householdChore.id} chore={householdChore} />
-            )}
+            {(householdChores.length > 0) ?
+            householdChores.map((householdChore) => 
+            <HouseholdChoreCard key={householdChore.id} chore={householdChore} />
+            ) :
+            <h1 className="title">Loading...</h1>}
         </div>
     );
 }
@@ -309,6 +374,28 @@ export function AddHouseholdChoreColumn()
                     <button className="button is-link" onClick={submitHandler}>Add</button>
                 </div>
             </div>
+        </div>
+    );
+}
+
+export function HouseholdSettingsColumn()
+{
+    const [householdUsers, setHouseholdUsers] = useState<User[]>([]);
+
+    const updateSettings = () => {
+        fetchData("/api/v2/getHouseholdUsers").then((result: { data: User[] }) => {
+            setHouseholdUsers(result.data.filter((user) => user.role === "child"));
+        });
+    }
+
+    useEffect(updateSettings, []);
+
+    return (
+        <div className="column">
+            {(householdUsers.length > 0) ?
+            householdUsers.map((user) =>
+            <HouseholdSettingsCard key={user.id} user={user} settingsUpdateHandler={updateSettings} />) :
+            <h1 className="title">Loading...</h1>}
         </div>
     );
 }

@@ -3,7 +3,7 @@ import fetchData from "./fetchData"
 
 export default function LoginErrorModal(props: { role: string })
 {
-    const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+    const [isLoggedIn, setIsLoggedIn] = useState<boolean>(true);
     const [accountRole, setAccountRole] = useState<string>(props.role);
 
     useEffect(() => {

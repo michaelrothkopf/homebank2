@@ -86,8 +86,8 @@ function ParentTabs(props: NavUIProps)
             <ul>
                 <Tab href="/parentDashboard" text="Dashboard" icon="tachometer-alt" activePage={props.activePage} />
                 <Tab href="/parentChores" text="Chores" icon="broom" activePage={props.activePage} />
-                <Tab href="/purchases" text="Purchases" icon="dollar-sign" activePage={props.activePage} />
-                <Tab href="/settings" text="Settings" icon="cogs" activePage={props.activePage} />
+                <Tab href="/parentPurchases" text="Purchases" icon="dollar-sign" activePage={props.activePage} />
+                <Tab href="/parentSettings" text="Settings" icon="cogs" activePage={props.activePage} />
             </ul>
         </div>
     );

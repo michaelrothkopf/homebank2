@@ -185,6 +185,7 @@ export const userCanAccessRecord = async (userId: number, recordId: number, reco
                 const recordUser = await getUser(recordId);
                 return (
                     (user.role == UserType.Parent && user.household == recordUser.household) ||
+                    (user.role == UserType.Parent && user.id == recordUser.id) ||
                     (user.role == UserType.Child && user.id == recordUser.id)
                 );
             default:
