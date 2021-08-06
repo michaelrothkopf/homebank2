@@ -1,6 +1,6 @@
 import { connection } from "../db/connection";
 import { sha256 } from "../crypto/createHash";
-import { getUser, getUserByUsername, User, UserType } from "../db/user";
+import { getUser, getUserByUsername, User, UserType, _getUserByUsername } from "../db/user";
 import { RowDataPacket } from "mysql2";
 import { generateUuid } from "../crypto/uuid";
 import { getUnixTime } from "../lib/getUnixTime";
@@ -22,6 +22,7 @@ export interface LoginAttemptResult {
     loginKey: string,
     success: boolean,
     user?: User,
+    message: string,
 }
 
 export interface SignupAttemptResult {
@@ -48,24 +49,26 @@ export const addLoginKey = async (userId: number): Promise<string> => {
 export const verifyLogin = async (username: string, password: string): Promise<LoginAttemptResult> => {
     const hashedPassword = sha256(password);
 
-    const user = await getUserByUsername(username);
+    const user = await _getUserByUsername(username);
 
     if (user && user.password == hashedPassword) {
         const loginKey = await addLoginKey(user.id);
-
-        console.log(`Login key: ${loginKey}`);
 
         const result: LoginAttemptResult = {
             user,
             loginKey,
             success: true,
+            message: "Successfully logged in"
         };
         return result;
     } else {
+        console.log()
+
         const result: LoginAttemptResult = {
             user,
             loginKey: '',
             success: false,
+            message: "Incorrect password"
         };
         return result;
     }
@@ -91,14 +94,16 @@ export const tokenIsValid = async (loginKey: string): Promise<LoginAttemptResult
         const result: LoginAttemptResult = {
             loginKey,
             user,
-            success: true
+            success: true,
+            message: "Token valid!"
         };
 
         return result;
     } catch {
         const result: LoginAttemptResult = {
             loginKey: loginKey,
-            success: false
+            success: false,
+            message: "Token invalid."
         };
         return result;
     }

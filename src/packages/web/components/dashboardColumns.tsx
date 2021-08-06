@@ -215,6 +215,28 @@ export function HouseholdSettingsCard(props: { user: User, settingsUpdateHandler
     );
 }
 
+export function ChildCompletedChoreCard(props: { chore: CompletedChore })
+{
+    const [isDeleted, setIsDeleted] = useState<boolean>(false);
+
+    const deleteChoreHandler = (e: any) => {
+        fetchData("/api/v2/removeCompletedChore", { completedChoreId: props.chore.id }).then((response: any) => {
+            if (response.data === true)
+            {
+                setIsDeleted(true);
+            }
+        });
+    }
+
+    return (
+        <>
+            {(!isDeleted) ?
+            <Card cardTitle="Chore" cardContent={`You completed the ${props.chore.choreName} chore for ${props.chore.completedChoreValue}`} noTime={true} />:
+            <></>}
+        </>
+    );
+}
+
 export function HouseholdCompletedChoresColumn()
 {
     const [completedChores, setCompletedChores] = useState<CompletedChore[]>([]);
@@ -395,6 +417,97 @@ export function HouseholdSettingsColumn()
             {(householdUsers.length > 0) ?
             householdUsers.map((user) =>
             <HouseholdSettingsCard key={user.id} user={user} settingsUpdateHandler={updateSettings} />) :
+            <h1 className="title">Loading...</h1>}
+        </div>
+    );
+}
+
+export function ChildLogChoreColumn()
+{
+    const [choreSelected, setChoreSelected] = useState<number>();
+    const [householdChores, setHouseholdChores] = useState<Chore[]>([]);
+
+    useEffect(() => {
+        fetchData("/api/v2/getHouseholdChores").then((result: { data: Chore[] }) => {
+            setHouseholdChores(result.data);
+            setChoreSelected((result.data[0] ? result.data[0].id : 0));
+        });
+    }, []);
+
+    const submitHandler = (e: any) => {
+        fetchData("/api/v2/addCompletedChore", { choreId: choreSelected });
+    }
+
+    const selectedChoreHandler = (e: any) => {
+        setChoreSelected(parseInt(e.target.value));
+    }
+
+    return (
+        <div className="column">
+            {(householdChores.length > 0) ?
+            <div className="card">
+                <div style={{padding: '3%'}}>
+                    <h3 className="title is-5">Log Chore</h3>
+                    <div className="select">
+                        <select onChange={selectedChoreHandler}>
+                            {householdChores.map((chore) => <><option value={chore.id} key={chore.id}>{chore.name}</option></>)}
+                        </select>
+                    </div>
+                    <br />
+                    <button className="button is-link" onClick={submitHandler} style={{marginTop: '3%'}}>Log</button>
+                </div>
+            </div> :
+            <h1 className="title">Loading...</h1>}
+        </div>
+    );
+}
+
+export function ChildUserColumn()
+{
+    const [userData, setUserData] = useState<User>();
+
+    useEffect(() => {
+        fetchData("/api/v2/getUser", { userId: null }).then((result: { data: User }) => {
+            console.log(result);
+            fetchData("/api/v2/getUserBalance").then((result2: { data: number }) => {
+                result.data.totalBalance = result2.data;
+
+                setUserData(result.data);
+            })
+        });
+    }, []);
+
+    return (
+        <div className="column">
+            {(userData) ?
+            <Card cardTitle="Your Status" cardContent={`Your balance is $${(userData.totalBalance).toLocaleString('default', { minimumFractionDigits: 2 })} with an allowance of $${(userData.allowance).toLocaleString('default', { minimumFractionDigits: 2 })} per week.`} noTime={true} noFooter={true} /> :
+            <h1 className="title">Loading...</h1>}
+        </div>
+    );
+}
+
+export function ChildCompletedChoresColumn()
+{
+    const [completedChores, setCompletedChores] = useState<CompletedChore[]>([]);
+
+    useEffect(() => {
+        fetchData("/api/v2/getUserCompletedChores").then(async (result: { data: CompletedChore[] }) => {
+            for (const chore of result.data)
+            {
+                const choreData: Chore = (await fetchData("/api/v2/getChore", { choreId: chore.chore })).data;
+
+                chore.choreName = choreData.name;
+                chore.completedChoreValue = choreData.value;
+            }
+
+            setCompletedChores(result.data);
+        });
+    }, []);
+
+    return (
+        <div className="column">
+            {(completedChores.length > 0) ?
+            completedChores.map((completedChore) => <ChildCompletedChoreCard key={completedChore.id} chore={completedChore} />) :
             <h1 className="title">Loading...</h1>}
         </div>
     );

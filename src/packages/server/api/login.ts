@@ -15,18 +15,18 @@ export const route = {
             {
                 res.send({
                     failed: false,
-                    data: { loginKey: response.loginKey, accountType: response.user.role },
+                    data: { loginKey: response.loginKey, accountType: response.user.role, message: response.message },
                 });
             } else {
                 res.send({
                     failed: false,
-                    data: { loginKey: response.loginKey, accountType: null },
+                    data: { loginKey: response.loginKey, accountType: null, message: response.message },
                 });
             }
         } else {
             res.send({
                 failed: true,
-                data: null,
+                data: { message: response.message},
             })
         }
     },

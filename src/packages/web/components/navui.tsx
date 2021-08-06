@@ -72,8 +72,8 @@ function ChildTabs(props: NavUIProps)
     return (
         <div className="tabs is-centered">
             <ul>
-                <Tab href="/dashboard" text="Dashboard" icon="tachometer-alt" activePage={props.activePage} />
-                <Tab href="/purchases" text="Purchases" icon="dollar-sign" activePage={props.activePage} />
+                <Tab href="/childDashboard" text="Dashboard" icon="tachometer-alt" activePage={props.activePage} />
+                <Tab href="/childPurchases" text="Purchases" icon="dollar-sign" activePage={props.activePage} />
             </ul>
         </div>
     );

@@ -68,6 +68,22 @@ export const getUserByUsername = async (username: string): Promise<User> => {
 }
 
 /**
+ * Gets a User object from the database given a username for the authentication module
+ * @param username
+ */
+ export const _getUserByUsername = async (username: string): Promise<User> => {
+    return new Promise((resolve, reject) => {
+        try {
+            connection.query(`SELECT * FROM users WHERE username=?;`, [username], (err: any, result: User[]) => {
+                resolve(result[0]);
+            })
+        } catch {
+            reject("Error getting user by ID.");
+        }
+    });
+}
+
+/**
  * Gets a user's nickname given a user ID
  * @param userId
  */

@@ -51,10 +51,9 @@ export const getCompletedChore = async (userId: number): Promise<CompletedChore>
  * @param userId
  * @param choreId
  */
-export const logCompletedChore = async (userId: number, choreId: number): Promise<void> => {
-    const household = await getUserHousehold(userId);
-    connection.query(`INSERT INTO chores_completed (chore, time_completed, user, household) VALUES (?, ?, ?, '?')`, [choreId, getUnixTime(), userId, household], (err) => {
-        return;
+export const logCompletedChore = async (userId: number, choreId: number, household: string): Promise<void> => {
+    connection.query(`INSERT INTO chores_completed (chore, time_completed, user, household) VALUES (?, ?, ?, ?);`, [choreId, getUnixTime(), userId, household], (err) => {
+        return new Promise<void>((resolve) => resolve());
     });
 }
 

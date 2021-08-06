@@ -23,9 +23,16 @@ export default function LoginErrorModal(props: { role: string })
             <div className="modal is-active">
                 <div className="modal-background"></div>
                 <div className="modal-content" style={{color: 'white'}}>
-                    <h1 className="title is-1" style={{color: 'white'}}>Warning: Access not authorized</h1>
-                    It appears you aren&quot;t logged in to homebank, or you&quot;re visiting parent pages on a child account (or vice versa)! This may cause issues or errors loading data, and you won&apos;t be able to use homebank as intended. Click the button below to log in:
-                    <a href="/" className="button">Log In</a>
+                    <h1 className="title is-1" style={{color: 'white'}}>Access denied</h1>
+                    <div className="content">
+                        <p>This error is caused by 2 things:</p>
+                        <ol>
+                            <li>You aren&quot;t logged in.</li>
+                            <li>You are logged into an account that can&quot;t access this page.</li>
+                        </ol>
+                        <p>Click this button to log in to an account that can access this page.</p>
+                    </div>
+                    <a href="/login" className="button is-link">Log In</a>
                 </div>
                 <button className="modal-close is-large" aria-label="close" onClick={() => {setIsLoggedIn(true);}}></button>
             </div>

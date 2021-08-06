@@ -11,7 +11,7 @@ export const route = {
     route: async (req: Request, res: Response) => {
         const validationResult = await tokenIsValid(req.cookies.loginKey);
 
-        if (!validationResult.success || !validationResult.user || validationResult.user.role != UserType.Parent) {
+        if (!validationResult.success || !validationResult.user) {
             res.send({
                 failed: true,
                 data: null,
