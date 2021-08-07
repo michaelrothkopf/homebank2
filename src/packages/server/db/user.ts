@@ -208,7 +208,7 @@ export const getUserTotalBalance = async (userId: number) => {
     let balance = startingBalance;
 
     for (const chore of choresCompleted) {
-        const choreValue = await getChoreValue(chore.id);
+        const choreValue = await getChoreValue(chore.chore);
 
         balance += choreValue;
     }

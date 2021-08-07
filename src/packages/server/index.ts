@@ -17,6 +17,11 @@ const app: Application = express();
 
 const PORT = 3031;
 
+// app.use((req, res, next) => {
+//     console.log(`${req.url}\n${req.body}`)
+//     next()
+// })
+
 try {
     app.use(bodyParser.json());
     app.use(cookieParser());

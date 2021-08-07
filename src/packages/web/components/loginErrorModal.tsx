@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react"
 import fetchData from "./fetchData"
+import Link from 'next/link'
 
 export default function LoginErrorModal(props: { role: string })
 {
@@ -27,12 +28,14 @@ export default function LoginErrorModal(props: { role: string })
                     <div className="content">
                         <p>This error is caused by 2 things:</p>
                         <ol>
-                            <li>You aren&quot;t logged in.</li>
-                            <li>You are logged into an account that can&quot;t access this page.</li>
+                            <li>You aren&apos;t logged in.</li>
+                            <li>You are logged into an account that can&apos;t access this page.</li>
                         </ol>
                         <p>Click this button to log in to an account that can access this page.</p>
                     </div>
-                    <a href="/login" className="button is-link">Log In</a>
+                    <Link href="/login">
+                        <a className="button is-link">Log In</a>
+                    </Link>
                 </div>
                 <button className="modal-close is-large" aria-label="close" onClick={() => {setIsLoggedIn(true);}}></button>
             </div>

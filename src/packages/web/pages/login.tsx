@@ -5,11 +5,14 @@ export default function Login()
 {
     const [usernameFieldValue, setUsernameFieldValue] = useState<string>("");
     const [passwordFieldValue, setPasswordFieldValue] = useState<string>("");
+    const [errorMessage, setErrorMessage] = useState<string>("");
 
     const submitHandler = (e: any) => {
         fetchData("/api/v2/login", { username: usernameFieldValue, password: passwordFieldValue }).then((response) => {
             if (!response.failed)
                 window.location.href = (response.data.accountType === "child" ? "/childDashboard" : "/parentDashboard");
+            else
+                setErrorMessage(response.data.message);
         });
     }
 
@@ -56,6 +59,8 @@ export default function Login()
                         <button className="button is-link" onClick={submitHandler}>Submit</button>
                     </div>
                 </div>
+
+                <p style={{color: 'red', fontFamily: 'sans-serif'}}>{errorMessage}</p>
             </div>
         </div>
     );

@@ -513,6 +513,75 @@ export function ChildCompletedChoresColumn()
     );
 }
 
+export function ChildLogPurchaseColumn()
+{
+    const [purchaseName, setPurchaseName] = useState<number>();
+    const [purchaseValue, setPurchaseValue] = useState<number>();
+
+    const submitHandler = (e: any) => {
+        fetchData("/api/v2/addUserPurchase", { item: purchaseName, amount: purchaseValue })
+    }
+
+    const purchaseNameChangeHandler = (e: any) => {
+        setPurchaseName(e.target.value);
+    }
+
+    const purchaseValueChangeHandler = (e: any) => {
+        setPurchaseValue(e.target.value);
+    }
+
+    return (
+        <div className="column">
+            <div style={{padding: '3%'}}>
+                <h3 className="title is-5">Log Purchase</h3>
+
+                <div className="field">
+                    <label className="label">Item</label>
+                    <div className="control">
+                        <input type="text" className="input" placeholder="Purchase name" onChange={purchaseNameChangeHandler} />
+                    </div>
+                </div>
+
+                <div className="field">
+                    <label className="label">Amount</label>
+                    <div className="control">
+                        <input type="number" className="input" placeholder="Purchase cost" onChange={purchaseValueChangeHandler} />
+                    </div>
+                </div>
+
+                <button className="button is-link" onClick={submitHandler} style={{marginTop: '3%'}}>Log</button>
+            </div>
+        </div>
+    );
+}
+
+export function ChildPurchasesColumn()
+{
+    const [childPurchases, setChildPurchases] = useState<Purchase[]>([]);
+
+    useEffect(() => {
+        fetchData("/api/v2/getUserPurchases").then(async (result: { data: Purchase[] }) => {
+            
+            for (const purchase of result.data)
+            {
+                purchase.completedUserNickname = "You"
+            }
+
+            setChildPurchases(result.data);
+        });
+    }, []);
+
+    return (
+        <div className="column">
+            {(childPurchases.length > 0) ?
+            childPurchases.map((householdPurchase) => 
+            <PurchaseCard key={householdPurchase.id} purchase={householdPurchase} />
+            ) :
+            <h1 className="title">Loading...</h1>}
+        </div>
+    );
+}
+
 export function DashboardContainer(props: DashboardContainerProps)
 {
     return (
