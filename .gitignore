@@ -4,6 +4,7 @@ node_modules/
 # Build folders
 dist/
 src/packages/web/.next/
+src/packages/server/config/database.json
 
 # Error logs
 npm-debug.log*
