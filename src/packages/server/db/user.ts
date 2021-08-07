@@ -189,7 +189,7 @@ export const getUserDateCreated = async (userId: number): Promise<Date> => {
     return new Promise((resolve, reject) => {
         try {
             connection.query(`SELECT * FROM users WHERE id=?;`, [userId], (err: any, result: User[]) => {
-                resolve(new Date(result[0].time_created));
+                resolve(new Date(result[0].time_created * 1000));
             })
         } catch {
             reject("Error getting user by ID.");
