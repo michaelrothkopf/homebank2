@@ -1,13 +1,16 @@
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 function NavBrand()
 {
     return (
         <div className="navbar-brand">
-            <a href="/" className="navbar-item">
-                <Image src="/favicon.png" alt="Homebank" width={256} height={256} />
-            </a>
+            <Link href="/">
+                <a className="navbar-item">
+                    <Image src="/favicon.png" alt="Homebank" width={256} height={256} />
+                </a>
+            </Link>
         </div>
     );
 }
@@ -21,7 +24,9 @@ interface NavLinkProps
 function NavLink(props: NavLinkProps)
 {
     return (
-        <a href={props.href} className="navbar-item">{props.text}</a>
+        <Link href={props.href}>
+            <a className="navbar-item">{props.text}</a>
+        </Link>
     );
 }
 
