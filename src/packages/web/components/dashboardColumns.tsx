@@ -262,6 +262,8 @@ export function HouseholdCompletedChoresColumn()
                 }
             }
 
+            result.data.reverse();
+
             setCompletedChores(result.data);
         });
     }, []);
@@ -317,6 +319,8 @@ export function HouseholdPurchasesColumn()
                 }
             }
 
+            result.data.reverse();
+
             setHouseholdPurchases(result.data);
         });
     }, []);
@@ -338,6 +342,7 @@ export function HouseholdChoresColumn()
 
     useEffect(() => {
         fetchData("/api/v2/getHouseholdChores").then(async (result: { data: Chore[] }) => {
+            result.data.reverse();
             setHouseholdChores(result.data);
         });
     }, []);
@@ -429,6 +434,7 @@ export function ChildLogChoreColumn()
 
     useEffect(() => {
         fetchData("/api/v2/getHouseholdChores").then((result: { data: Chore[] }) => {
+            result.data.reverse();
             setHouseholdChores(result.data);
             setChoreSelected((result.data[0] ? result.data[0].id : 0));
         });
@@ -472,6 +478,7 @@ export function ChildUserColumn()
             fetchData("/api/v2/getUserBalance").then((result2: { data: number }) => {
                 result.data.totalBalance = result2.data;
 
+                result.data.reverse();
                 setUserData(result.data);
             })
         });
@@ -500,6 +507,7 @@ export function ChildCompletedChoresColumn()
                 chore.completedChoreValue = choreData.value;
             }
 
+            result.data.reverse();
             setCompletedChores(result.data);
         });
     }, []);
@@ -567,6 +575,7 @@ export function ChildPurchasesColumn()
                 purchase.completedUserNickname = "You"
             }
 
+            result.data.reverse();
             setChildPurchases(result.data);
         });
     }, []);
