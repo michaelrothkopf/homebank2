@@ -103,17 +103,24 @@ export function CompletedChoreCard(props: { chore: CompletedChore })
     );
 }
 
-export function PurchaseCard(props: { purchase: Purchase })
+export function PurchaseCard(props: { purchase: Purchase, deleteForbidden?: boolean })
 {
     const [isDeleted, setIsDeleted] = useState<boolean>(false);
 
     const deletePurchaseHandler = (e: any) => {
-        fetchData("/api/v2/removeUserPurchase", { purchaseId: props.purchase.id }).then((response: any) => {
-            if (response.data === true)
-            {
-                setIsDeleted(true);
-            }
-        });
+        if (props.deleteForbidden)
+        {
+            alert("Child accounts cannot perform this action; please have a parent delete this purchase for you.");
+        }
+        else
+        {
+            fetchData("/api/v2/removeUserPurchase", { purchaseId: props.purchase.id }).then((response: any) => {
+                if (response.data === true)
+                {
+                    setIsDeleted(true);
+                }
+            });
+        }
     }
 
     return (
@@ -477,8 +484,7 @@ export function ChildUserColumn()
             console.log(result);
             fetchData("/api/v2/getUserBalance").then((result2: { data: number }) => {
                 result.data.totalBalance = result2.data;
-
-                result.data.reverse();
+                
                 setUserData(result.data);
             })
         });
@@ -584,7 +590,7 @@ export function ChildPurchasesColumn()
         <div className="column">
             {(childPurchases.length > 0) ?
             childPurchases.map((householdPurchase) => 
-            <PurchaseCard key={householdPurchase.id} purchase={householdPurchase} />
+            <PurchaseCard key={householdPurchase.id} purchase={householdPurchase} deleteForbidden={true} />
             ) :
             <h1 className="title">Loading...</h1>}
         </div>
