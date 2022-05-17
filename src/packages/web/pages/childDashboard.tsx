@@ -10,9 +10,9 @@ export default function ChildDashboard()
             <ChildNavUI activePage="Dashboard" />
             <br />
             <DashboardContainer>
+                <ChildUserColumn />
                 <ChildLogChoreColumn />
                 <ChildCompletedChoresColumn />
-                <ChildUserColumn />
             </DashboardContainer>
         </div>
     );

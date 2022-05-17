@@ -11,8 +11,8 @@ export default function ParentDashboard()
             <ParentNavUI activePage="Dashboard" />
             <br />
             <DashboardContainer>
-                <HouseholdCompletedChoresColumn />
                 <HouseholdUsersColumn />
+                <HouseholdCompletedChoresColumn />
                 <HouseholdPurchasesColumn />
             </DashboardContainer>
         </div>
