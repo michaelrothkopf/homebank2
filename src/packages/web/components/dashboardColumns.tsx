@@ -502,6 +502,7 @@ export function ChildUserColumn()
 export function ChildCompletedChoresColumn()
 {
     const [completedChores, setCompletedChores] = useState<CompletedChore[]>([]);
+    const [loadingComplete, setLoadingComplete] = useState<Boolean>(false);
 
     useEffect(() => {
         fetchData("/api/v2/getUserCompletedChores").then(async (result: { data: CompletedChore[] }) => {
@@ -515,16 +516,30 @@ export function ChildCompletedChoresColumn()
 
             result.data.reverse();
             setCompletedChores(result.data);
+
+            setLoadingComplete(true);
         });
     }, []);
 
-    return (
-        <div className="column">
-            {(completedChores.length > 0) ?
-            completedChores.map((completedChore) => <ChildCompletedChoreCard key={completedChore.id} chore={completedChore} />) :
-            <h1 className="title">Loading...</h1>}
-        </div>
-    );
+    if (completedChores.length > 0)
+    {
+        return (
+            <div className="column">
+                {completedChores.map((completedChore) => <ChildCompletedChoreCard key={completedChore.id} chore={completedChore} />)}
+            </div>
+        );
+    }
+    else
+    {
+        if (loadingComplete)
+        {
+            return (<h3>There are no completed chores to display.</h3>);
+        }
+        else
+        {
+            return (<h1 className="title">Loading...</h1>);
+        }
+    }
 }
 
 export function ChildLogPurchaseColumn()
